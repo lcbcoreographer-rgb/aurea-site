@@ -102,7 +102,7 @@ export default function Page() {
             </a>
           ))}
         </div>
-        <a href="#contato" className="btn-primary" style={{ fontSize: 13, padding: "10px 20px" }}>Falar com especialista →</a>
+        <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 13, padding: "10px 20px" }}>Falar com especialista →</a>
       </nav>
 
       {/* HERO */}
@@ -120,7 +120,7 @@ export default function Page() {
             Automatizamos sua aquisição de clientes com campanhas de alta performance e inteligência artificial. Do lead ao fechamento, tudo conectado.
           </p>
           <div className="fade-up d3" style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="#contato" className="btn-primary">Quero uma proposta gratuita →</a>
+            <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary">Quero uma proposta gratuita →</a>
             <a href="#servicos" className="btn-ghost">Ver serviços</a>
           </div>
 
@@ -227,7 +227,7 @@ export default function Page() {
             <p style={{ fontSize: 15, color: "var(--t2)", lineHeight: 1.7, marginBottom: 32 }}>
               Um processo claro, transparente e orientado a resultados. Sem surpresas, sem promessas vazias — só dados e entregas concretas.
             </p>
-            <a href="#contato" className="btn-primary">Começar agora →</a>
+            <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary">Começar agora →</a>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
             {PROCESS.map((p, i) => (
