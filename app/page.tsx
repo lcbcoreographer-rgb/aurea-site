@@ -108,7 +108,7 @@ export default function Page() {
       </div>
 
       {/* NAV */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 48px", height: 68, background: "rgba(0,0,0,.75)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,.06)" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(0,0,0,.75)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,.06)" }} className="nav-wrap">
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <img src="/logo.jpg" alt="Aurea Group" style={{ width: 36, height: 36, borderRadius: 8, objectFit: "cover" }} />
           <span style={{ fontSize: 17, fontWeight: 900, letterSpacing: "-.03em" }}>Aurea<span className="gold-text">Group</span></span>
@@ -122,7 +122,7 @@ export default function Page() {
             </a>
           ))}
         </div>
-        <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 13, padding: "10px 20px" }}>Falar com especialista →</a>
+        <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 13, padding: "10px 20px", whiteSpace: "nowrap" }}>Falar com especialista →</a>
       </nav>
 
       {/* HERO */}
@@ -151,7 +151,7 @@ export default function Page() {
                 <span style={{ fontSize: 12, fontWeight: 700, color: "var(--t3)", letterSpacing: ".06em", textTransform: "uppercase" }}>Performance — últimos 30 dias</span>
                 <span style={{ fontSize: 11, background: "rgba(76,175,134,.1)", color: "#4CAF86", border: "1px solid rgba(76,175,134,.2)", borderRadius: 99, padding: "3px 10px", fontWeight: 700 }}>● Ao vivo</span>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+              <div className="metrics-grid">
                 {[
                   { l: "Investido", v: "R$12.400", c: "var(--t2)" },
                   { l: "Receita gerada", v: "R$39.680", c: "var(--gold-lt)" },
@@ -180,9 +180,9 @@ export default function Page() {
       {/* STATS */}
       <section style={{ padding: "40px 0 80px", position: "relative", zIndex: 1 }}>
         <div className="divider" style={{ marginBottom: 60 }} />
-        <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0 }}>
+        <div className="stats-grid">
           {STATS.map((s, i) => (
-            <div key={i} style={{ textAlign: "center", borderRight: i < 3 ? "1px solid rgba(255,255,255,.06)" : "none", padding: "0 24px" }}>
+            <div key={i} className="stat-item">
               <div className="gold-text" style={{ fontSize: 40, fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1 }}>{s.v}</div>
               <div style={{ fontSize: 13, color: "var(--t2)", marginTop: 8, fontWeight: 500 }}>{s.l}</div>
             </div>
@@ -225,7 +225,7 @@ export default function Page() {
               Combinamos estratégia, tecnologia e inteligência artificial para criar um sistema de aquisição que funciona no piloto automático.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+          <div className="grid-3">
             {SERVICES.map((s, i) => (
               <div key={i} className="glass-card" style={{ padding: 28 }}>
                 <div style={{ fontSize: 28, marginBottom: 16, color: "var(--gold-lt)" }}>{s.icon}</div>
@@ -244,7 +244,7 @@ export default function Page() {
 
       {/* PROCESS */}
       <section id="processo" style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
+        <div className="grid-2-process">
           <div>
             <div className="badge" style={{ marginBottom: 20 }}>Processo</div>
             <h2 style={{ fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1, marginBottom: 20 }}>
@@ -284,7 +284,7 @@ export default function Page() {
               Feito para quem quer<br /><span className="gold-text">crescer com consistência</span>
             </h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+          <div className="grid-3">
             {FOR_WHOM.map((f, i) => (
               <div key={i} className="glass-card" style={{ padding: 24, display: "flex", gap: 18, alignItems: "flex-start" }}>
                 <div style={{ fontSize: 28, flexShrink: 0 }}>{f.icon}</div>
@@ -307,8 +307,8 @@ export default function Page() {
               Somos diferentes.<br /><span className="gold-text">Isso é um fato.</span>
             </h2>
           </div>
-          <div style={{ background: "rgba(255,255,255,.025)", border: "1px solid rgba(255,255,255,.07)", borderRadius: 16, overflow: "hidden" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <div className="table-scroll" style={{ border: "1px solid rgba(255,255,255,.07)" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", background: "rgba(255,255,255,.025)", minWidth: 480 }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(255,255,255,.07)" }}>
                   <th style={{ padding: "16px 24px", textAlign: "left", fontSize: 13, color: "var(--t2)", fontWeight: 600 }}>Critério</th>
@@ -399,7 +399,7 @@ export default function Page() {
       {/* CTA FINAL */}
       <section id="contato" style={{ padding: "80px 24px 120px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
-          <div style={{ background: "rgba(201,162,39,.06)", border: "1px solid rgba(201,162,39,.2)", borderRadius: 24, padding: "60px 40px", position: "relative", overflow: "hidden" }}>
+          <div className="cta-box" style={{ background: "rgba(201,162,39,.06)", border: "1px solid rgba(201,162,39,.2)", position: "relative", overflow: "hidden" }}>
             <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center top, rgba(201,162,39,.1) 0%, transparent 70%)", pointerEvents: "none" }} />
             <div className="badge" style={{ marginBottom: 24 }}>Vamos conversar</div>
             <h2 style={{ fontSize: "clamp(28px, 5vw, 48px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1, marginBottom: 16 }}>
@@ -422,8 +422,8 @@ export default function Page() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ borderTop: "1px solid rgba(255,255,255,.06)", padding: "40px 48px", position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 24 }}>
+      <footer style={{ borderTop: "1px solid rgba(255,255,255,.06)", padding: "40px 24px", position: "relative", zIndex: 1 }}>
+        <div className="footer-flex">
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
               <img src="/logo.jpg" alt="Aurea Group" style={{ width: 28, height: 28, borderRadius: 7, objectFit: "cover" }} />
