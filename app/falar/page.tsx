@@ -173,27 +173,62 @@ Modelo de interesse: Mentoria ${d.modelo}
   return "";
 }
 
-const WA = "5541987850818";
+const WA          = "5541987850818";
+const BACKEND_URL = "https://whatsap-agent-whatsap-agent.nctu8q.easypanel.host";
+
+// ── Backend payload builder ───────────────────────────────────────────────────
+function buildBackendPayload(flow: Flow, d: D, score: number, cl: ReturnType<typeof classify>) {
+  const quality = cl.hot || score >= 61 ? "quente" : score >= 31 ? "morno" : "frio";
+  const analise = flow === "servicos"
+    ? `Lead Serviços | Score ${score}/100 | ${cl.label} | Segmento: ${d.segmento} | Tráfego: ${d.trafegoPago} | Atendimento: ${d.atendimento} | Perde vendas: ${d.perdaVendas} | Leads/mês: ${d.leadsMonth} | Faturamento: ${d.faturamento} | Desafio: ${d.desafio} | Investimento: ${d.investimento} | Cidade: ${d.cidade}`
+    : `Mentoria | Score ${score}/100 | ${cl.label} | Digital: ${d.trabalhaDigital} | Vende: ${d.oQueVende} | Área: ${d.areaAtuacao} | Dificuldade: ${d.dificuldade} | Faturamento: ${d.melhorFat} | Modelo: Mentoria ${d.modelo}`;
+
+  return {
+    tipo_de_lead:        flow ?? "",
+    tipo_lead:           flow ?? "",
+    perfil:              cl.label,
+    nome:                d.nome    ?? "",
+    email:               d.email   ?? "",
+    whatsapp:            d.whatsapp ?? "",
+    empresa:             d.empresa ?? "",
+    cidade:              d.cidade  ?? "",
+    score,
+    lead_quality:        quality,
+    analise,
+    // Serviços
+    segmento:            d.segmento    ?? "",
+    faturamento:         d.faturamento ?? d.melhorFat ?? "",
+    desafio:             d.desafio     ?? d.dificuldade ?? "",
+    trafego:             d.trafegoPago ?? "",
+    investir:            d.investimento ?? "",
+    // Mentoria
+    trabalha_marketing:  d.trabalhaDigital ?? "",
+    area_atuacao:        d.areaAtuacao     ?? "",
+    maior_dificuldade:   d.dificuldade     ?? "",
+    // Payload completo para form_leads
+    payload:             { ...d, flow, score, classificacao: cl.label, tags: cl.tags },
+  };
+}
 
 // ── Component ────────────────────────────────────────────────────────────────
 export default function FalarPage() {
-  const [flow,   setFlow]   = useState<Flow>(null);
-  const [step,   setStep]   = useState(0);
-  const [data,   setData]   = useState<D>({});
-  const [done,   setDone]   = useState(false);
-  const [anim,   setAnim]   = useState(false);
-  const [fwd,    setFwd]    = useState(true);
+  const [flow,        setFlow]        = useState<Flow>(null);
+  const [step,        setStep]        = useState(0);
+  const [data,        setData]        = useState<D>({});
+  const [done,        setDone]        = useState(false);
+  const [anim,        setAnim]        = useState(false);
+  const [fwd,         setFwd]         = useState(true);
+  const [submitting,  setSubmitting]  = useState(false);
+  const [submitError, setSubmitError] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<string[]>([]);
 
   const steps: StepDef[] = flow === "servicos" ? SV : flow === "mentoria" ? MT : CU;
   const cur: StepDef | undefined = steps[step];
   const total = steps.length;
 
-  // Animate step change
-  const goStep = (next: number, forward = true) => {
-    setFwd(forward);
-    setAnim(true);
-    setTimeout(() => { setStep(next); setAnim(false); }, 220);
+  const goStep = (n: number, forward = true) => {
+    setFwd(forward); setAnim(true);
+    setTimeout(() => { setStep(n); setAnim(false); }, 220);
   };
 
   const canAdvance = (): boolean => {
@@ -207,17 +242,43 @@ export default function FalarPage() {
     return !!data[cur.id];
   };
 
-  const next = () => {
+  const next = async () => {
     if (!canAdvance()) return;
     setFieldErrors([]);
-    if (step < total - 1) { goStep(step + 1, true); }
-    else { setFwd(true); setAnim(true); setTimeout(() => { setDone(true); setAnim(false); }, 220); }
+
+    if (step < total - 1) {
+      goStep(step + 1, true);
+      return;
+    }
+
+    // Last step — submit to backend (only for servicos and mentoria)
+    if (flow === "servicos" || flow === "mentoria") {
+      setSubmitting(true);
+      setSubmitError(false);
+      try {
+        const payload = buildBackendPayload(flow, data, calcScore(flow, data), classify(flow, calcScore(flow, data), data));
+        const res = await fetch(`${BACKEND_URL}/n8n/lead`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      } catch (e) {
+        console.error("Falha ao enviar lead:", e);
+        setSubmitError(true);
+      } finally {
+        setSubmitting(false);
+      }
+    }
+
+    setFwd(true); setAnim(true);
+    setTimeout(() => { setDone(true); setAnim(false); }, 220);
   };
 
   const back = () => {
     setFieldErrors([]);
     if (step > 0) { goStep(step - 1, false); }
-    else { setFwd(false); setAnim(true); setTimeout(() => { setFlow(null); setStep(0); setData({}); setAnim(false); }, 220); }
+    else { setFwd(false); setAnim(true); setTimeout(() => { setFlow(null); setStep(0); setData({}); setDone(false); setAnim(false); }, 220); }
   };
 
   const score = calcScore(flow, data);
@@ -363,16 +424,25 @@ export default function FalarPage() {
         <h2 style={{ fontSize: "clamp(20px,4vw,26px)", fontWeight: 900, letterSpacing: "-.03em", lineHeight: 1.3, marginBottom: 14 }}>
           Recebemos suas<br /><span className="gold-text">informações com sucesso!</span>
         </h2>
-        <p style={{ fontSize: 14, color: "var(--t2)", lineHeight: 1.7, marginBottom: 8, maxWidth: 380, margin: "0 auto 8px" }}>{msg}</p>
-        <p style={{ fontSize: 12, color: "var(--t3)", marginBottom: 32 }}>
+        <p style={{ fontSize: 14, color: "var(--t2)", lineHeight: 1.7, maxWidth: 380, margin: "0 auto 12px" }}>{msg}</p>
+        <p style={{ fontSize: 12, color: "var(--t3)", marginBottom: 28 }}>
           Score: <strong style={{ color: cl.color }}>{score}/100</strong>
+          {submitError && <span style={{ color: "#ff6b6b", marginLeft: 8 }}>· falha ao enviar, use o WhatsApp abaixo</span>}
         </p>
-        {(flow === "servicos" || flow === "mentoria") && (
-          <a href={`https://wa.me/${WA}?text=${waMsg}`} target="_blank" rel="noopener noreferrer"
-            className="btn-primary" style={{ width: "100%", justifyContent: "center", fontSize: 15, padding: "16px 28px", borderRadius: 12, background: cl.hot ? "linear-gradient(135deg,#ff6b35,#e85d20)" : undefined }}>
-            💬 {cl.hot ? "Falar AGORA com especialista →" : "Falar com nossa equipe →"}
-          </a>
-        )}
+
+        {/* Primary: back to site */}
+        <a href="/" className="btn-primary"
+          style={{ width: "100%", justifyContent: "center", fontSize: 15, padding: "16px 28px", borderRadius: 12,
+            background: cl.hot ? "linear-gradient(135deg,#ff6b35,#e85d20)" : undefined, marginBottom: 12 }}>
+          {cl.hot ? "✅ Informações enviadas — aguarde nosso contato" : "✅ Voltar ao site →"}
+        </a>
+
+        {/* Secondary: WhatsApp fallback */}
+        <a href={`https://wa.me/${WA}?text=${waMsg}`} target="_blank" rel="noopener noreferrer"
+          className="btn-ghost" style={{ width: "100%", justifyContent: "center", fontSize: 13, padding: "12px 28px", borderRadius: 12 }}>
+          💬 Prefere falar agora? WhatsApp →
+        </a>
+
         <p style={{ marginTop: 20, fontSize: 12, color: "var(--t3)" }}>🔒 Suas informações estão seguras e não serão compartilhadas.</p>
       </div>
     );
@@ -464,10 +534,10 @@ export default function FalarPage() {
                 {/* Navigation */}
                 <div style={{ display: "flex", gap: 10, marginTop: 24 }}>
                   <button onClick={back} className="btn-ghost" style={{ padding: "14px 20px", borderRadius: 10, fontSize: 14 }}>← Voltar</button>
-                  <button onClick={next} className="btn-primary"
+                  <button onClick={next} className="btn-primary" disabled={submitting}
                     style={{ flex: 1, justifyContent: "center", padding: "14px 20px", borderRadius: 10, fontSize: 14,
-                      opacity: isStepValid(cur, data) ? 1 : 0.5 }}>
-                    {step === total - 1 ? "Concluir →" : "Continuar →"}
+                      opacity: isStepValid(cur, data) && !submitting ? 1 : 0.5 }}>
+                    {submitting ? "Enviando..." : step === total - 1 ? "Concluir →" : "Continuar →"}
                   </button>
                 </div>
               </>
