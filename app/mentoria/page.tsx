@@ -285,7 +285,7 @@ export default function MentoriaPage() {
             <p style={{ fontSize: 16, color: "var(--t2)", lineHeight: 1.7, marginBottom: 36 }}>
               Fale com a Luca Vespa e descubra qual nível faz mais sentido para o seu momento.
             </p>
-            <a href="https://wa.me/5541987490574?text=Olá Luca! Quero saber mais sobre a mentoria" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 15, padding: "16px 32px" }}>
+            <a href="https://wa.me/5541987850818?text=Olá Luca! Quero saber mais sobre a mentoria" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 15, padding: "16px 32px" }}>
               💬 Falar no WhatsApp
             </a>
           </div>

@@ -409,7 +409,7 @@ export default function Page() {
               Diagnóstico 100% gratuito. Sem compromisso. Resposta em até 1 hora.
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <a href="https://wa.me/5541987490574?text=Olá! Quero um diagnóstico gratuito" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 15, padding: "16px 32px" }}>
+              <a href="https://wa.me/5541987850818?text=Olá! Quero um diagnóstico gratuito" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 15, padding: "16px 32px" }}>
                 💬 Falar no WhatsApp
               </a>
               <a href="mailto:contato@aureagroup.com.br" className="btn-ghost" style={{ fontSize: 15, padding: "16px 32px" }}>
@@ -435,7 +435,7 @@ export default function Page() {
             {[
               { l: "Instagram", h: "#" },
               { l: "LinkedIn", h: "#" },
-              { l: "WhatsApp", h: "https://wa.me/5541987490574" },
+              { l: "WhatsApp", h: "https://wa.me/5541987850818" },
             ].map(s => (
               <a key={s.l} href={s.h} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "var(--t3)", textDecoration: "none", fontWeight: 500, transition: "color .15s" }}
                 onMouseEnter={e => (e.currentTarget.style.color = "var(--gold-lt)")}
