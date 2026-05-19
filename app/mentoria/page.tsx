@@ -84,7 +84,7 @@ export default function MentoriaPage() {
           <span style={{ fontSize: 11, fontWeight: 700, color: "var(--t3)", letterSpacing: ".06em", textTransform: "uppercase" }}>Mentoria com</span>
           <span style={{ fontSize: 13, fontWeight: 800, color: "var(--gold-lt)" }}>Luca Vespa</span>
         </div>
-        <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 13, padding: "10px 20px" }}>Quero participar →</a>
+        <a href="/falar" className="btn-primary" style={{ fontSize: 13, padding: "10px 20px" }}>Quero participar →</a>
       </nav>
 
       {/* HERO */}
@@ -104,7 +104,7 @@ export default function MentoriaPage() {
             Estratégia · Posicionamento · Processos
           </p>
           <div className="fade-up d4" style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 15, padding: "16px 32px" }}>Quero participar da mentoria →</a>
+            <a href="/falar" className="btn-primary" style={{ fontSize: 15, padding: "16px 32px" }}>Quero participar da mentoria →</a>
             <a href="#pilares" className="btn-ghost" style={{ fontSize: 15, padding: "16px 32px" }}>Ver os pilares</a>
           </div>
         </div>
@@ -246,7 +246,7 @@ export default function MentoriaPage() {
                   </div>
                 ))}
               </div>
-              <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-ghost" style={{ width: "100%", justifyContent: "center", fontSize: 14 }}>Saber mais →</a>
+              <a href="/falar" className="btn-ghost" style={{ width: "100%", justifyContent: "center", fontSize: 14 }}>Saber mais →</a>
             </div>
 
             {/* Nível 2 */}
@@ -267,7 +267,7 @@ export default function MentoriaPage() {
                   </div>
                 ))}
               </div>
-              <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ width: "100%", justifyContent: "center", fontSize: 14 }}>Quero o individual →</a>
+              <a href="/falar" className="btn-primary" style={{ width: "100%", justifyContent: "center", fontSize: 14 }}>Quero o individual →</a>
             </div>
           </div>
         </div>
