@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 export interface FlyItem {
@@ -47,6 +47,14 @@ interface Props {
 }
 
 export default function FlyInGrid({ items, sectionBadge = "Para Quem", heading }: Props) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const sectionRef = useRef<HTMLElement>(null);
   const wrapRefs   = useRef<(HTMLDivElement | null)[]>([]);
   const headerRef  = useRef<HTMLDivElement>(null);
@@ -135,6 +143,31 @@ export default function FlyInGrid({ items, sectionBadge = "Para Quem", heading }
     el.style.transform   = "";
     el.style.borderColor = "";
     el.style.boxShadow   = "";
+  }
+
+  // ── Mobile fallback: simple stacked cards ────────────
+  if (isMobile) {
+    return (
+      <section id="para-quem" style={{ padding: "64px 0", position: "relative", zIndex: 1 }}>
+        <div style={{ maxWidth: 560, margin: "0 auto", padding: "0 20px" }}>
+          <div style={{ textAlign: "center", marginBottom: 36 }}>
+            <div className="badge" style={{ marginBottom: 16 }}>{sectionBadge}</div>
+            <h2 style={{ fontSize: "clamp(26px,7vw,36px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.15 }}>{heading}</h2>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {items.map((item, i) => (
+              <div key={i} className="glass-card mob-card" style={{ padding: "18px 20px", display: "flex", gap: 16, alignItems: "flex-start", animationDelay: `${i * 0.07}s` } as React.CSSProperties}>
+                <div style={{ fontSize: 26, flexShrink: 0 }}>{item.icon}</div>
+                <div>
+                  <h3 style={{ fontSize: 14, fontWeight: 700, letterSpacing: "-.01em", marginBottom: 6 }}>{item.title}</h3>
+                  <p style={{ fontSize: 13, color: "var(--t2)", lineHeight: 1.6 }}>{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (

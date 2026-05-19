@@ -3,10 +3,17 @@ import { useEffect, useRef, useState } from "react";
 
 interface Item { num: string; title: string; time: string; desc: string; }
 
-const RADIUS   = 190;   // px — circle radius
-const LERP     = 0.075; // interpolation speed (smaller = slower/smoother)
+const RADIUS = 190;
+const LERP   = 0.075;
 
 export default function ProcessWheel({ items }: { items: Item[] }) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
   const sectionRef  = useRef<HTMLElement>(null);
   const ringRef     = useRef<HTMLDivElement>(null);
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -85,6 +92,41 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
       cancelAnimationFrame(rafId.current);
     };
   }, [N, STEP, items]);
+
+  // ── Mobile fallback: simple vertical timeline ─────────
+  if (isMobile) {
+    return (
+      <section id="processo" style={{ padding: "64px 0", position: "relative", zIndex: 1 }}>
+        <div style={{ maxWidth: 560, margin: "0 auto", padding: "0 20px" }}>
+          <div className="badge" style={{ marginBottom: 16 }}>Processo</div>
+          <h2 style={{ fontSize: "clamp(26px,7vw,36px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.15, marginBottom: 12 }}>
+            Do diagnóstico<br /><span className="gold-text">ao resultado</span>
+          </h2>
+          <p style={{ fontSize: 14, color: "var(--t2)", lineHeight: 1.7, marginBottom: 32 }}>
+            Processo claro, transparente e orientado a resultados.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {items.map((item, i) => (
+              <div key={i} style={{ display: "flex", gap: 14, position: "relative" }}>
+                {i < items.length - 1 && (
+                  <div style={{ position: "absolute", left: 18, top: 40, bottom: -24, width: 1, background: "linear-gradient(to bottom, rgba(201,162,39,.25), transparent)" }} />
+                )}
+                <div style={{ width: 36, height: 36, borderRadius: 9, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(201,162,39,.08)", border: "1px solid rgba(201,162,39,.22)", fontSize: 10, fontWeight: 900, color: "var(--gold-lt)" }}>{item.num}</div>
+                <div style={{ paddingTop: 2 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4, flexWrap: "wrap" }}>
+                    <span style={{ fontSize: 14, fontWeight: 700 }}>{item.title}</span>
+                    <span style={{ fontSize: 10, color: "var(--gold-lt)", background: "rgba(201,162,39,.08)", border: "1px solid rgba(201,162,39,.15)", borderRadius: 99, padding: "2px 7px", fontWeight: 700 }}>{item.time}</span>
+                  </div>
+                  <p style={{ fontSize: 13, color: "var(--t2)", lineHeight: 1.65 }}>{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <a href="/falar" className="btn-primary" style={{ marginTop: 32, display: "inline-flex" }}>Começar agora →</a>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section

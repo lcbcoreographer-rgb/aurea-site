@@ -157,12 +157,14 @@ export default function Page() {
     const onScroll = () => {
       const sy = window.scrollY;
 
-      // Hero fades & rises on scroll
-      const hero = document.querySelector<HTMLElement>(".hero-section");
-      if (hero) {
-        const p = Math.min(sy / 480, 1);
-        hero.style.transform = `translateY(${sy * 0.22}px)`;
-        hero.style.opacity = `${1 - p * 0.75}`;
+      // Hero parallax — desktop only
+      if (window.innerWidth >= 768) {
+        const hero = document.querySelector<HTMLElement>(".hero-section");
+        if (hero) {
+          const p = Math.min(sy / 480, 1);
+          hero.style.transform = `translateY(${sy * 0.22}px)`;
+          hero.style.opacity = `${1 - p * 0.75}`;
+        }
       }
 
       // Scroll progress bar
@@ -173,10 +175,10 @@ export default function Page() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    // ── Magnetic buttons ─────────────────────────────
+    // ── Magnetic buttons — desktop/mouse only ────────────
     type MagnetEntry = { el: HTMLElement; move: (e: MouseEvent) => void; leave: () => void };
     const magnets: MagnetEntry[] = [];
-    document.querySelectorAll<HTMLElement>(".btn-primary, .btn-ghost").forEach(el => {
+    if (window.matchMedia("(pointer: fine)").matches) document.querySelectorAll<HTMLElement>(".btn-primary, .btn-ghost").forEach(el => {
       const move = (e: MouseEvent) => {
         const r = el.getBoundingClientRect();
         const dx = e.clientX - (r.left + r.width / 2);
@@ -191,7 +193,7 @@ export default function Page() {
       el.addEventListener("mousemove", move);
       el.addEventListener("mouseleave", leave);
       magnets.push({ el, move, leave });
-    });
+    }); // end pointer: fine check
 
     return () => {
       revealObs.disconnect();
@@ -263,7 +265,7 @@ export default function Page() {
       )}
 
       {/* HERO */}
-      <section style={{ paddingTop: 160, paddingBottom: 100, textAlign: "center", position: "relative", zIndex: 1 }}>
+      <section className="hero-wrap" style={{ paddingTop: 160, paddingBottom: 100, textAlign: "center", position: "relative", zIndex: 1 }}>
         <div className="hero-section" style={{ maxWidth: 860, margin: "0 auto", padding: "0 24px" }}>
           <div className="badge fade-up" style={{ marginBottom: 28 }}>
             <span className="badge-dot" /> Agência de performance & IA
