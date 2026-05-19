@@ -256,15 +256,29 @@ export default function FalarPage() {
       setSubmitting(true);
       setSubmitError(false);
       try {
-        const payload = buildBackendPayload(flow, data, calcScore(flow, data), classify(flow, calcScore(flow, data), data));
+        const s     = calcScore(flow, data);
+        const cl2   = classify(flow, s, data);
+        const payload = buildBackendPayload(flow, data, s, cl2);
+        console.log("[CRM] Enviando para", `${BACKEND_URL}/n8n/lead`);
+        console.log("[CRM] Payload:", JSON.stringify(payload, null, 2));
+
+        const controller = new AbortController();
+        const timeout    = setTimeout(() => controller.abort(), 12000);
+
         const res = await fetch(`${BACKEND_URL}/n8n/lead`, {
-          method: "POST",
+          method:  "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
+          body:    JSON.stringify(payload),
+          signal:  controller.signal,
         });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        clearTimeout(timeout);
+
+        const responseBody = await res.text();
+        console.log("[CRM] Status:", res.status, "| Body:", responseBody);
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${responseBody}`);
+        console.log("[CRM] Lead enviado com sucesso ✓");
       } catch (e) {
-        console.error("Falha ao enviar lead:", e);
+        console.error("[CRM] Erro ao enviar lead:", e);
         setSubmitError(true);
       } finally {
         setSubmitting(false);
@@ -417,32 +431,17 @@ export default function FalarPage() {
 
     return (
       <div style={{ textAlign: "center" }} className={`step-slide${anim ? (fwd ? " exit-fwd" : " exit-bwd") : ""}`}>
-        <div style={{ fontSize: 48, marginBottom: 16 }}>{cl.hot ? "🔥" : "✅"}</div>
-        <div className="badge" style={{ marginBottom: 16, borderColor: cl.hot ? "rgba(255,107,53,.4)" : undefined, color: cl.color }}>
-          {cl.label}
-        </div>
-        <h2 style={{ fontSize: "clamp(20px,4vw,26px)", fontWeight: 900, letterSpacing: "-.03em", lineHeight: 1.3, marginBottom: 14 }}>
+        <div style={{ fontSize: 52, marginBottom: 20 }}>✅</div>
+        <h2 style={{ fontSize: "clamp(20px,4vw,26px)", fontWeight: 900, letterSpacing: "-.03em", lineHeight: 1.3, marginBottom: 16 }}>
           Recebemos suas<br /><span className="gold-text">informações com sucesso!</span>
         </h2>
-        <p style={{ fontSize: 14, color: "var(--t2)", lineHeight: 1.7, maxWidth: 380, margin: "0 auto 12px" }}>{msg}</p>
-        <p style={{ fontSize: 12, color: "var(--t3)", marginBottom: 28 }}>
-          Score: <strong style={{ color: cl.color }}>{score}/100</strong>
-          {submitError && <span style={{ color: "#ff6b6b", marginLeft: 8 }}>· falha ao enviar, use o WhatsApp abaixo</span>}
+        <p style={{ fontSize: 14, color: "var(--t2)", lineHeight: 1.8, maxWidth: 380, margin: "0 auto 32px" }}>
+          {msg}
         </p>
-
-        {/* Primary: back to site */}
         <a href="/" className="btn-primary"
-          style={{ width: "100%", justifyContent: "center", fontSize: 15, padding: "16px 28px", borderRadius: 12,
-            background: cl.hot ? "linear-gradient(135deg,#ff6b35,#e85d20)" : undefined, marginBottom: 12 }}>
-          {cl.hot ? "✅ Informações enviadas — aguarde nosso contato" : "✅ Voltar ao site →"}
+          style={{ width: "100%", justifyContent: "center", fontSize: 15, padding: "16px 28px", borderRadius: 12 }}>
+          Voltar ao site →
         </a>
-
-        {/* Secondary: WhatsApp fallback */}
-        <a href={`https://wa.me/${WA}?text=${waMsg}`} target="_blank" rel="noopener noreferrer"
-          className="btn-ghost" style={{ width: "100%", justifyContent: "center", fontSize: 13, padding: "12px 28px", borderRadius: 12 }}>
-          💬 Prefere falar agora? WhatsApp →
-        </a>
-
         <p style={{ marginTop: 20, fontSize: 12, color: "var(--t3)" }}>🔒 Suas informações estão seguras e não serão compartilhadas.</p>
       </div>
     );
