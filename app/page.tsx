@@ -172,6 +172,10 @@ export default function Page() {
       const prog = docH > 0 ? sy / docH : 0;
       const bar = document.querySelector<HTMLElement>(".scroll-progress-bar");
       if (bar) bar.style.transform = `scaleX(${prog})`;
+
+      // Hide scroll hint after user starts scrolling
+      const hint = document.getElementById("scroll-hint");
+      if (hint) hint.classList.toggle("hidden", sy > 160);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -210,6 +214,15 @@ export default function Page() {
     <>
       {/* Scroll progress bar */}
       <div className="scroll-progress-bar" />
+
+      {/* Scroll hint — desktop only */}
+      <div id="scroll-hint" className="scroll-hint">
+        <span className="scroll-hint-label">scroll</span>
+        <div className="scroll-hint-track">
+          <div className="scroll-hint-fill" />
+        </div>
+        <span className="scroll-hint-arrow">↓</span>
+      </div>
 
       {/* Background effects */}
       <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
