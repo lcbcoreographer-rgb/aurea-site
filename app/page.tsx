@@ -73,7 +73,18 @@ const STATS = [
   { v: "3.2×", l: "ROAS médio" },
 ];
 
-const CLIENTS = ["Cliente A", "Cliente B", "Cliente C", "Cliente D", "Cliente E", "Cliente F", "Cliente G", "Cliente H"];
+const CLIENTS = [
+  { name: "Ademicon",  file: "ademicon logo.PNG"  },
+  { name: "Nissei",    file: "nissei logo.PNG"    },
+  { name: "Lavish",    file: "lavish logo.PNG"    },
+  { name: "Vespinha",  file: "vespinha logo.PNG"  },
+  { name: "Maaniam",   file: "maaniam logo.PNG"   },
+  { name: "Grove",     file: "grove logo.PNG"     },
+  { name: "Folha",     file: "folha logo.PNG"     },
+  { name: "Ramon",     file: "ramon logo.PNG"     },
+  { name: "Hawkinds",  file: "hawkinds logo.PNG"  },
+  { name: "Vespa",     file: "vespa logo.PNG"     },
+];
 
 export default function Page() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -179,8 +190,14 @@ export default function Page() {
         <div className="ticker-wrap">
           <div className="ticker">
             {[...CLIENTS, ...CLIENTS].map((c, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: 48, padding: "0 48px", borderRight: "1px solid rgba(255,255,255,.06)" }}>
-                <div style={{ width: 120, height: 36, background: "rgba(255,255,255,.04)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, color: "var(--t3)", fontWeight: 700, letterSpacing: ".02em" }}>{c}</div>
+              <div key={i} style={{ display: "flex", alignItems: "center", padding: "0 40px", borderRight: "1px solid rgba(255,255,255,.05)" }}>
+                <img
+                  src={`/clients/${c.file}`}
+                  alt={c.name}
+                  style={{ height: 40, maxWidth: 130, objectFit: "contain", filter: "grayscale(1) brightness(1.8)", opacity: .6, transition: "opacity .2s, filter .2s" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0)"; (e.currentTarget as HTMLImageElement).style.opacity = "1"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(1) brightness(1.8)"; (e.currentTarget as HTMLImageElement).style.opacity = ".6"; }}
+                />
               </div>
             ))}
           </div>
