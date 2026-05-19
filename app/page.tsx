@@ -173,9 +173,10 @@ export default function Page() {
       const bar = document.querySelector<HTMLElement>(".scroll-progress-bar");
       if (bar) bar.style.transform = `scaleX(${prog})`;
 
-      // Hide scroll hint after user starts scrolling
-      const hint = document.getElementById("scroll-hint");
-      if (hint) hint.classList.toggle("hidden", sy > 160);
+      // Hide scroll hints after user starts scrolling
+      const hidden = sy > 160;
+      document.getElementById("scroll-hint")?.classList.toggle("hidden", hidden);
+      document.getElementById("scroll-hint-r")?.classList.toggle("hidden", hidden);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -215,14 +216,16 @@ export default function Page() {
       {/* Scroll progress bar */}
       <div className="scroll-progress-bar" />
 
-      {/* Scroll hint — desktop only */}
-      <div id="scroll-hint" className="scroll-hint">
-        <span className="scroll-hint-label">scroll</span>
-        <div className="scroll-hint-track">
-          <div className="scroll-hint-fill" />
+      {/* Scroll hints — desktop only, both sides */}
+      {(["scroll-hint-left", "scroll-hint-right"] as const).map(side => (
+        <div key={side} id={side === "scroll-hint-left" ? "scroll-hint" : "scroll-hint-r"} className={`scroll-hint ${side}`}>
+          <span className="scroll-hint-label">scroll</span>
+          <div className="scroll-hint-track">
+            <div className="scroll-hint-fill" />
+          </div>
+          <span className="scroll-hint-arrow">↓</span>
         </div>
-        <span className="scroll-hint-arrow">↓</span>
-      </div>
+      ))}
 
       {/* Background effects */}
       <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>

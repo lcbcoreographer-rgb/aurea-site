@@ -316,12 +316,14 @@ body::after {
 
 /* ── Scroll hint (desktop only) ─────────────────────── */
 .scroll-hint {
-  position: fixed; right: 40px; bottom: 56px;
+  position: fixed; top: 50%; transform: translateY(-50%);
   display: flex; flex-direction: column; align-items: center; gap: 10px;
-  z-index: 99996; pointer-events: none;   /* above grain overlay */
+  z-index: 99996; pointer-events: none;
   opacity: 1; transition: opacity .7s ease;
 }
 .scroll-hint.hidden { opacity: 0; }
+.scroll-hint-left  { left:  40px; }
+.scroll-hint-right { right: 40px; }
 
 .scroll-hint-label {
   font-size: 9px; font-weight: 300;
