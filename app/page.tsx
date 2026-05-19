@@ -121,6 +121,11 @@ export default function Page() {
               {l}
             </a>
           ))}
+          <a href="/mentoria" style={{ fontSize: 13, fontWeight: 700, color: "var(--gold-lt)", textDecoration: "none", transition: "color .15s" }}
+            onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
+            onMouseLeave={e => (e.currentTarget.style.color = "var(--gold-lt)")}>
+            Mentoria ✦
+          </a>
         </div>
         <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 13, padding: "10px 20px", whiteSpace: "nowrap" }}>Falar com especialista →</a>
       </nav>
@@ -431,7 +436,12 @@ export default function Page() {
             </div>
             <p style={{ fontSize: 12, color: "var(--t3)", maxWidth: 300, lineHeight: 1.6 }}>Tráfego pago e IA para negócios que querem crescer de verdade.</p>
           </div>
-          <div style={{ display: "flex", gap: 32 }}>
+          <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
+            <a href="/mentoria" style={{ fontSize: 13, color: "var(--gold-lt)", textDecoration: "none", fontWeight: 700, transition: "color .15s" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
+              onMouseLeave={e => (e.currentTarget.style.color = "var(--gold-lt)")}>
+              Mentoria ✦
+            </a>
             {[
               { l: "Instagram", h: "#" },
               { l: "LinkedIn", h: "#" },
