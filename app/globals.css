@@ -187,6 +187,22 @@ body::after {
   opacity: .025;
 }
 
+/* ── FlyInGrid ──────────────────────────────────────── */
+.fly-wrapper { border-radius: 16px; }
+
+@keyframes fly-float {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-9px); }
+}
+/* Float activates when .fly-landed is added by JS */
+.fly-wrapper.fly-landed {
+  animation: fly-float var(--fly-dur, 4s) ease-in-out infinite var(--fly-delay, 0s);
+}
+/* Pause float on hover so tilt can take over cleanly */
+.fly-wrapper.fly-landed:hover {
+  animation-play-state: paused;
+}
+
 /* ── Process Wheel ──────────────────────────────────── */
 .process-grid {
   max-width: 1100px; margin: 0 auto; padding: 0 24px;

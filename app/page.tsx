@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import ProcessWheel from "./components/ProcessWheel";
+import FlyInGrid    from "./components/FlyInGrid";
 
 const SERVICES = [
   {
@@ -382,29 +383,12 @@ export default function Page() {
       {/* PROCESS — 3D wheel */}
       <ProcessWheel items={PROCESS} />
 
-      {/* FOR WHOM */}
-      <section id="para-quem" style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px" }}>
-          <div className="reveal" style={{ textAlign: "center", marginBottom: 60 }}>
-            <div className="badge" style={{ marginBottom: 20 }}>Para Quem</div>
-            <h2 style={{ fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1, marginBottom: 16 }}>
-              Feito para quem quer<br /><span className="gold-text">crescer com consistência</span>
-            </h2>
-          </div>
-          <div className="grid-3">
-            {FOR_WHOM.map((f, i) => (
-              <div key={i} className={`glass-card reveal reveal-d${(i % 3) + 1}`} style={{ padding: 24, display: "flex", gap: 18, alignItems: "flex-start" }}
-                onMouseMove={tilt} onMouseLeave={resetTilt}>
-                <div style={{ fontSize: 28, flexShrink: 0 }}>{f.icon}</div>
-                <div>
-                  <h3 style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-.01em", marginBottom: 8 }}>{f.title}</h3>
-                  <p style={{ fontSize: 13, color: "var(--t2)", lineHeight: 1.65 }}>{f.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* FOR WHOM — cinematic fly-in */}
+      <FlyInGrid
+        items={FOR_WHOM}
+        sectionBadge="Para Quem"
+        heading={<>Feito para quem quer<br /><span className="gold-text">crescer com consistência</span></>}
+      />
 
       {/* COMPARISON */}
       <section style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
