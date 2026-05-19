@@ -203,9 +203,9 @@ export default function Page() {
                 <img
                   src={`/clients/${c.file}`}
                   alt={c.name}
-                  style={{ height: 80, maxWidth: 260, objectFit: "contain", filter: "invert(1) grayscale(1) brightness(1.4)", mixBlendMode: "screen", opacity: .75, transition: "opacity .2s, filter .2s" }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.filter = "invert(1) brightness(1.1)"; (e.currentTarget as HTMLImageElement).style.opacity = "1"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.filter = "invert(1) grayscale(1) brightness(1.4)"; (e.currentTarget as HTMLImageElement).style.opacity = ".75"; }}
+                  style={{ height: 80, maxWidth: 260, objectFit: "contain", filter: "grayscale(1) brightness(1.8)", opacity: .6, transition: "opacity .2s, filter .2s" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0)"; (e.currentTarget as HTMLImageElement).style.opacity = "1"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(1) brightness(1.8)"; (e.currentTarget as HTMLImageElement).style.opacity = ".6"; }}
                 />
               </div>
             ))}
