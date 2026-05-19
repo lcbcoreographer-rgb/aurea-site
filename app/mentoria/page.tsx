@@ -257,10 +257,10 @@ export default function MentoriaPage() {
               </div>
               <h3 style={{ fontSize: 22, fontWeight: 900, letterSpacing: "-.03em", marginBottom: 14 }}>Mentoria Individual</h3>
               <p style={{ fontSize: 14, color: "var(--t2)", lineHeight: 1.75, marginBottom: 28 }}>
-                Acompanhamento personalizado e exclusivo com a Luca Vespa. Estratégia, implementação e ajustes feitos sob medida para o seu negócio.
+                Acompanhamento personalizado e exclusivo com o Luca Vespa. Estratégia, implementação e ajustes feitos sob medida para o seu negócio.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 32 }}>
-                {["Sessões 1:1 com a Luca Vespa", "Estratégia 100% personalizada", "Acesso direto por WhatsApp", "Revisão de materiais e processos", "Tudo do nível em grupo"].map((f, i) => (
+                {["Sessões 1:1 com o Luca Vespa", "Estratégia 100% personalizada", "Acesso direto por WhatsApp", "Revisão de materiais e processos", "Tudo do nível em grupo"].map((f, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: 12 }}>
                     <span style={{ color: "var(--gold-lt)", fontSize: 15, flexShrink: 0 }}>✓</span>
                     <span style={{ fontSize: 13, color: "var(--t2)" }}>{f}</span>
@@ -283,7 +283,7 @@ export default function MentoriaPage() {
               Pronto para transformar<br /><span className="gold-text">seu negócio?</span>
             </h2>
             <p style={{ fontSize: 16, color: "var(--t2)", lineHeight: 1.7, marginBottom: 36 }}>
-              Fale com a Luca Vespa e descubra qual nível faz mais sentido para o seu momento.
+              Fale com o Luca Vespa e descubra qual nível faz mais sentido para o seu momento.
             </p>
             <a href="https://wa.me/5541987850818?text=Olá Luca! Quero saber mais sobre a mentoria" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 15, padding: "16px 32px" }}>
               💬 Falar no WhatsApp
