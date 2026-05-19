@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import ProcessWheel from "./components/ProcessWheel";
 
 const SERVICES = [
   {
@@ -378,38 +379,8 @@ export default function Page() {
         </div>
       </section>
 
-      {/* PROCESS */}
-      <section id="processo" style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
-        <div className="grid-2-process">
-          <div className="reveal">
-            <div className="badge" style={{ marginBottom: 20 }}>Processo</div>
-            <h2 style={{ fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1, marginBottom: 20 }}>
-              Do diagnóstico<br /><span className="gold-text">ao resultado</span>
-            </h2>
-            <p style={{ fontSize: 15, color: "var(--t2)", lineHeight: 1.7, marginBottom: 32 }}>
-              Um processo claro, transparente e orientado a resultados. Sem surpresas, sem promessas vazias — só dados e entregas concretas.
-            </p>
-            <a href="/falar" className="btn-primary">Começar agora →</a>
-          </div>
-          <div className="reveal reveal-d2" style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-            {PROCESS.map((p, i) => (
-              <div key={i} style={{ display: "flex", gap: 20, position: "relative" }}>
-                {i < PROCESS.length - 1 && (
-                  <div style={{ position: "absolute", left: 19, top: 44, bottom: -32, width: 1, background: "linear-gradient(to bottom, rgba(201,162,39,.25), transparent)" }} />
-                )}
-                <div style={{ width: 40, height: 40, borderRadius: 10, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(201,162,39,.08)", border: "1px solid rgba(201,162,39,.22)", fontSize: 12, fontWeight: 800, color: "var(--gold-lt)" }}>{p.num}</div>
-                <div style={{ flex: 1, paddingTop: 2 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
-                    <span style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-.02em" }}>{p.title}</span>
-                    <span style={{ fontSize: 10, color: "var(--gold-lt)", background: "rgba(201,162,39,.08)", border: "1px solid rgba(201,162,39,.15)", borderRadius: 99, padding: "2px 8px", fontWeight: 700, flexShrink: 0 }}>{p.time}</span>
-                  </div>
-                  <p style={{ fontSize: 13, color: "var(--t2)", lineHeight: 1.65 }}>{p.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* PROCESS — 3D wheel */}
+      <ProcessWheel items={PROCESS} />
 
       {/* FOR WHOM */}
       <section id="para-quem" style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
