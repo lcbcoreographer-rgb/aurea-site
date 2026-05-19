@@ -234,9 +234,19 @@ export default function FalarPage() {
   const canAdvance = (): boolean => {
     if (!cur) return true;
     if (cur.type === "fields") {
-      const missing = cur.fields.filter(f => !(data[f.id]?.trim()));
-      setFieldErrors(missing.map(f => f.id));
-      return missing.length === 0;
+      const errors: string[] = [];
+      for (const f of cur.fields) {
+        const val = data[f.id]?.trim() ?? "";
+        if (!val) {
+          errors.push(f.id);                  // empty
+        } else if (f.type === "email" && !validEmail(val)) {
+          errors.push(`${f.id}_fmt`);         // bad email format
+        } else if (f.type === "tel" && !validPhone(val)) {
+          errors.push(`${f.id}_fmt`);         // bad phone format
+        }
+      }
+      setFieldErrors(errors);
+      return errors.length === 0;
     }
     if (cur.type === "text") return !!(data[cur.id]?.trim());
     return !!data[cur.id];
@@ -313,11 +323,23 @@ export default function FalarPage() {
                 type={f.type || "text"}
                 placeholder={f.placeholder}
                 value={data[f.id] || ""}
-                onChange={e => setData(p => ({ ...p, [f.id]: e.target.value }))}
-                className={`falar-input${fieldErrors.includes(f.id) ? " error" : ""}`}
+                onChange={e => {
+                  setData(p => ({ ...p, [f.id]: e.target.value }));
+                  // Clear error for this field on change
+                  setFieldErrors(prev => prev.filter(e => e !== f.id && e !== `${f.id}_fmt`));
+                }}
+                className={`falar-input${(fieldErrors.includes(f.id) || fieldErrors.includes(`${f.id}_fmt`)) ? " error" : ""}`}
                 onKeyDown={e => e.key === "Enter" && next()}
               />
-              {fieldErrors.includes(f.id) && <span style={{ fontSize: 11, color: "#ff6b6b", marginTop: 4, display: "block" }}>Campo obrigatório</span>}
+              {fieldErrors.includes(f.id) && (
+                <span style={{ fontSize: 11, color: "#ff6b6b", marginTop: 4, display: "block" }}>Campo obrigatório</span>
+              )}
+              {fieldErrors.includes(`${f.id}_fmt`) && f.type === "email" && (
+                <span style={{ fontSize: 11, color: "#ff6b6b", marginTop: 4, display: "block" }}>E-mail inválido — use o formato: nome@email.com</span>
+              )}
+              {fieldErrors.includes(`${f.id}_fmt`) && f.type === "tel" && (
+                <span style={{ fontSize: 11, color: "#ff6b6b", marginTop: 4, display: "block" }}>WhatsApp inválido — inclua o DDD, ex: 41 99999-9999</span>
+              )}
             </div>
           ))}
         </div>
@@ -548,6 +570,16 @@ export default function FalarPage() {
       </main>
     </>
   );
+}
+
+// ── Validation helpers ───────────────────────────────────────────────────────
+function validEmail(v: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+}
+function validPhone(v: string) {
+  const digits = v.replace(/\D/g, "");
+  // Brazilian: DDD (2) + 8 or 9 digits = 10 or 11 digits; with country code: 12 or 13
+  return digits.length >= 10 && digits.length <= 13;
 }
 
 function isStepValid(cur: StepDef | undefined, data: D): boolean {
