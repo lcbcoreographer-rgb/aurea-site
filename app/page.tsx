@@ -66,6 +66,15 @@ const FAQS = [
   { q: "Atendem empresas de qualquer segmento?", a: "Atendemos a maioria dos segmentos B2C e B2B. Temos expertise especial em e-commerce, saúde, educação, imóveis e serviços. Agende um diagnóstico para entendermos se fazemos sentido para o seu negócio." },
 ];
 
+const TESTIMONIALS = [
+  { name: "Carlos Mendes", role: "CEO — E-commerce de Moda", text: "Em 45 dias o ROAS passou de 1.8x para 3.4x. O agente de WhatsApp qualifica os leads que chegam dos anúncios e já vendemos 3 pedidos grandes sem intervenção humana." },
+  { name: "Ana Beatriz", role: "Fundadora — Clínica Estética", text: "A agenda estava sempre com buracos. Hoje está cheia com 2 semanas de antecedência. O agente IA agenda direto no Google Calendar e avisa a equipe." },
+  { name: "Rafael Torres", role: "Diretor — Imobiliária", text: "Deixamos de perder leads fora do horário comercial. O agente qualifica, entende a necessidade e já manda uma seleção de imóveis. A taxa de visitas agendadas triplicou." },
+  { name: "Juliana Costa", role: "Sócia — Infoprodutora", text: "Meu lançamento bateu R$180k em 7 dias. A automação de WhatsApp seguiu os leads quentes em tempo real enquanto eu estava no palco apresentando." },
+  { name: "Marcos Oliveira", role: "Fundador — SaaS B2B", text: "CAC caiu 38% em dois meses. O funil automatizado nutre os leads por semanas antes de passar para o time comercial — eles chegam muito mais prontos." },
+  { name: "Fernanda Lima", role: "Diretora — Rede de Franquias", text: "Gerenciar anúncios de 12 unidades era um caos. Agora temos relatório semanal unificado e cada franqueado vê sua performance em tempo real." },
+];
+
 const STATS = [
   { v: "R$2M+", l: "em tráfego gerenciado" },
   { v: "150+", l: "leads qualificados/mês" },
@@ -335,33 +344,31 @@ export default function Page() {
 
       {/* TESTIMONIALS */}
       <section style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px" }}>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <div className="badge" style={{ marginBottom: 20 }}>Depoimentos</div>
-            <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1 }}>
-              O que nossos clientes<br /><span className="gold-text">estão dizendo</span>
-            </h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-            {[
-              { name: "Carlos Mendes", role: "CEO — E-commerce de Moda", text: "Em 45 dias o ROAS passou de 1.8x para 3.4x. O agente de WhatsApp qualifica os leads que chegam dos anúncios e já vendemos 3 pedidos grandes sem intervenção humana." },
-              { name: "Ana Beatriz", role: "Fundadora — Clínica Estética", text: "A agenda estava sempre com buracos. Hoje está cheia com 2 semanas de antecedência. O agente IA agenda direto no Google Calendar e avisa a equipe." },
-              { name: "Rafael Torres", role: "Diretor — Imobiliária", text: "Deixamos de perder leads fora do horário comercial. O agente qualifica, entende a necessidade e já manda uma seleção de imóveis. A taxa de visitas agendadas triplicou." },
-            ].map((t, i) => (
-              <div key={i} className="glass-card" style={{ padding: 28 }}>
-                <div style={{ display: "flex", gap: 2, marginBottom: 16 }}>
-                  {[1,2,3,4,5].map(s => <span key={s} style={{ color: "var(--gold-lt)", fontSize: 14 }}>★</span>)}
-                </div>
-                <p style={{ fontSize: 14, color: "var(--t2)", lineHeight: 1.7, marginBottom: 20, fontStyle: "italic" }}>&ldquo;{t.text}&rdquo;</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 12, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,.06)" }}>
-                  <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg, var(--gold-lt), var(--gold2))", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 14, color: "#000", flexShrink: 0 }}>{t.name[0]}</div>
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 700 }}>{t.name}</div>
-                    <div style={{ fontSize: 11, color: "var(--t3)" }}>{t.role}</div>
+        <div style={{ textAlign: "center", marginBottom: 48, padding: "0 24px" }}>
+          <div className="badge" style={{ marginBottom: 20 }}>Depoimentos</div>
+          <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1 }}>
+            O que nossos clientes<br /><span className="gold-text">estão dizendo</span>
+          </h2>
+        </div>
+        <div>
+          <div className="ticker-wrap">
+            <div className="ticker-slow">
+              {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
+                <div key={i} className="glass-card" style={{ width: 380, flexShrink: 0, padding: 28, margin: "0 8px" }}>
+                  <div style={{ display: "flex", gap: 2, marginBottom: 16 }}>
+                    {[1,2,3,4,5].map(s => <span key={s} style={{ color: "var(--gold-lt)", fontSize: 14 }}>★</span>)}
+                  </div>
+                  <p style={{ fontSize: 14, color: "var(--t2)", lineHeight: 1.7, marginBottom: 20, fontStyle: "italic" }}>&ldquo;{t.text}&rdquo;</p>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,.06)" }}>
+                    <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg, var(--gold-lt), var(--gold2))", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 14, color: "#000", flexShrink: 0 }}>{t.name[0]}</div>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 700 }}>{t.name}</div>
+                      <div style={{ fontSize: 11, color: "var(--t3)" }}>{t.role}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>

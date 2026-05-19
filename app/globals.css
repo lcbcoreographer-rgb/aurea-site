@@ -75,6 +75,8 @@ body {
 .ticker-wrap { overflow: hidden; mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent); }
 .ticker { display: flex; gap: 0; width: max-content; animation: tick 30s linear infinite; }
 .ticker:hover { animation-play-state: paused; }
+.ticker-slow { display: flex; gap: 0; width: max-content; animation: tick 55s linear infinite; }
+.ticker-slow:hover { animation-play-state: paused; }
 @keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
 .faq-item { border-bottom: 1px solid var(--bdr); }
