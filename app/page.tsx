@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const SERVICES = [
   {
@@ -76,10 +76,10 @@ const TESTIMONIALS = [
 ];
 
 const STATS = [
-  { v: "R$2M+", l: "em tráfego gerenciado" },
-  { v: "150+", l: "leads qualificados/mês" },
-  { v: "98%", l: "taxa de retenção" },
-  { v: "3.2×", l: "ROAS médio" },
+  { v: "R$2M+", l: "em tráfego gerenciado",   count: 2,   prefix: "R$", suffix: "M+" },
+  { v: "150+",  l: "leads qualificados/mês",   count: 150, prefix: "",   suffix: "+"  },
+  { v: "98%",   l: "taxa de retenção",          count: 98,  prefix: "",   suffix: "%"  },
+  { v: "3.2×",  l: "ROAS médio",               count: 3.2, prefix: "",   suffix: "×"  },
 ];
 
 const CLIENTS = [
@@ -95,17 +95,123 @@ const CLIENTS = [
   { name: "Vespa",     file: "vespa logo.PNG"     },
 ];
 
+function tilt(e: React.MouseEvent<HTMLDivElement>) {
+  const el = e.currentTarget;
+  el.style.transition = "border-color .2s, box-shadow .2s";
+  const r = el.getBoundingClientRect();
+  const x = ((e.clientX - r.left) / r.width - 0.5) * 18;
+  const y = ((e.clientY - r.top) / r.height - 0.5) * -18;
+  el.style.transform = `perspective(700px) rotateX(${y}deg) rotateY(${x}deg) translateY(-5px)`;
+  el.style.borderColor = "var(--bdr-gold)";
+  el.style.boxShadow = "0 20px 60px rgba(201,162,39,.12)";
+}
+function resetTilt(e: React.MouseEvent<HTMLDivElement>) {
+  const el = e.currentTarget;
+  el.style.transition = "transform .5s cubic-bezier(.16,1,.3,1), border-color .3s, box-shadow .3s";
+  el.style.transform = "";
+  el.style.borderColor = "";
+  el.style.boxShadow = "";
+}
+
 export default function Page() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [mobileMenu, setMobileMenu] = useState(false);
 
+  useEffect(() => {
+    // ── Scroll reveal ────────────────────────────────
+    const revealObs = new IntersectionObserver(
+      (entries) => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add("visible"); revealObs.unobserve(e.target); }
+      }),
+      { threshold: 0.07, rootMargin: "0px 0px -48px 0px" }
+    );
+    document.querySelectorAll(".reveal").forEach(el => revealObs.observe(el));
+
+    // ── Counter animation ────────────────────────────
+    const counterObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target as HTMLElement;
+        const target = parseFloat(el.dataset.count ?? "0");
+        const prefix = el.dataset.prefix ?? "";
+        const suffix = el.dataset.suffix ?? "";
+        const isDecimal = !Number.isInteger(target);
+        const duration = 2200;
+        const start = performance.now();
+        const tick = (now: number) => {
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 4);
+          const v = target * eased;
+          el.textContent = prefix + (isDecimal ? v.toFixed(1) : Math.floor(v)) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+        counterObs.unobserve(el);
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll<HTMLElement>("[data-count]").forEach(el => counterObs.observe(el));
+
+    // ── Hero parallax + scroll progress ─────────────
+    const onScroll = () => {
+      const sy = window.scrollY;
+
+      // Hero fades & rises on scroll
+      const hero = document.querySelector<HTMLElement>(".hero-section");
+      if (hero) {
+        const p = Math.min(sy / 480, 1);
+        hero.style.transform = `translateY(${sy * 0.22}px)`;
+        hero.style.opacity = `${1 - p * 0.75}`;
+      }
+
+      // Scroll progress bar
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      const prog = docH > 0 ? sy / docH : 0;
+      const bar = document.querySelector<HTMLElement>(".scroll-progress-bar");
+      if (bar) bar.style.transform = `scaleX(${prog})`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    // ── Magnetic buttons ─────────────────────────────
+    type MagnetEntry = { el: HTMLElement; move: (e: MouseEvent) => void; leave: () => void };
+    const magnets: MagnetEntry[] = [];
+    document.querySelectorAll<HTMLElement>(".btn-primary, .btn-ghost").forEach(el => {
+      const move = (e: MouseEvent) => {
+        const r = el.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        el.style.transition = "transform .1s ease, box-shadow .2s";
+        el.style.transform = `translate(${dx * 0.3}px, ${dy * 0.3}px)`;
+      };
+      const leave = () => {
+        el.style.transition = "transform .5s cubic-bezier(.16,1,.3,1), box-shadow .2s";
+        el.style.transform = "";
+      };
+      el.addEventListener("mousemove", move);
+      el.addEventListener("mouseleave", leave);
+      magnets.push({ el, move, leave });
+    });
+
+    return () => {
+      revealObs.disconnect();
+      counterObs.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      magnets.forEach(({ el, move, leave }) => {
+        el.removeEventListener("mousemove", move);
+        el.removeEventListener("mouseleave", leave);
+      });
+    };
+  }, []);
+
   return (
     <>
+      {/* Scroll progress bar */}
+      <div className="scroll-progress-bar" />
+
       {/* Background effects */}
       <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }}>
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(255,255,255,.022) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
-        <div style={{ position: "absolute", width: 700, height: 700, borderRadius: "50%", background: "var(--gold)", filter: "blur(140px)", opacity: .1, top: -200, left: -150 }} />
-        <div style={{ position: "absolute", width: 500, height: 500, borderRadius: "50%", background: "#3A7BD5", filter: "blur(130px)", opacity: .08, bottom: -100, right: -100 }} />
+        <div className="orb-a" style={{ position: "absolute", width: 700, height: 700, borderRadius: "50%", background: "var(--gold)", filter: "blur(140px)", opacity: .1, top: -200, left: -150 }} />
+        <div className="orb-b" style={{ position: "absolute", width: 500, height: 500, borderRadius: "50%", background: "#3A7BD5", filter: "blur(130px)", opacity: .08, bottom: -100, right: -100 }} />
       </div>
 
       {/* NAV */}
@@ -128,7 +234,7 @@ export default function Page() {
             Mentoria ✦
           </a>
         </div>
-        <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary hide-mobile" style={{ fontSize: 13, padding: "10px 20px", whiteSpace: "nowrap" }}>Falar com especialista →</a>
+        <a href="/falar" className="btn-primary hide-mobile" style={{ fontSize: 13, padding: "10px 20px", whiteSpace: "nowrap" }}>Falar com especialista →</a>
         <button className="show-mobile" onClick={() => setMobileMenu(!mobileMenu)} style={{ background: "none", border: "1px solid rgba(255,255,255,.12)", borderRadius: 8, padding: "8px 12px", cursor: "pointer", color: "#fff", fontSize: 18, lineHeight: 1 }}>
           {mobileMenu ? "✕" : "☰"}
         </button>
@@ -147,7 +253,7 @@ export default function Page() {
             style={{ fontSize: 16, fontWeight: 700, color: "var(--gold-lt)", textDecoration: "none", padding: "16px 0", borderBottom: "1px solid rgba(255,255,255,.05)" }}>
             Mentoria ✦
           </a>
-          <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary" onClick={() => setMobileMenu(false)}
+          <a href="/falar" className="btn-primary" onClick={() => setMobileMenu(false)}
             style={{ marginTop: 20, justifyContent: "center", fontSize: 15 }}>
             Falar com especialista →
           </a>
@@ -156,7 +262,7 @@ export default function Page() {
 
       {/* HERO */}
       <section style={{ paddingTop: 160, paddingBottom: 100, textAlign: "center", position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 24px" }}>
+        <div className="hero-section" style={{ maxWidth: 860, margin: "0 auto", padding: "0 24px" }}>
           <div className="badge fade-up" style={{ marginBottom: 28 }}>
             <span className="badge-dot" /> Agência de performance & IA
           </div>
@@ -169,7 +275,7 @@ export default function Page() {
             Automatizamos sua aquisição de clientes com campanhas de alta performance e inteligência artificial. Do lead ao fechamento, tudo conectado.
           </p>
           <div className="fade-up d3" style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary">Quero uma proposta gratuita →</a>
+            <a href="/falar" className="btn-primary">Quero uma proposta gratuita →</a>
             <a href="#servicos" className="btn-ghost">Ver serviços</a>
           </div>
 
@@ -211,8 +317,8 @@ export default function Page() {
         <div className="divider" style={{ marginBottom: 60 }} />
         <div className="stats-grid">
           {STATS.map((s, i) => (
-            <div key={i} className="stat-item">
-              <div className="gold-text" style={{ fontSize: 40, fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1 }}>{s.v}</div>
+            <div key={i} className={`stat-item reveal reveal-d${i + 1}`}>
+              <div className="gold-text" data-count={s.count} data-prefix={s.prefix} data-suffix={s.suffix} style={{ fontSize: 40, fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1 }}>{s.v}</div>
               <div style={{ fontSize: 13, color: "var(--t2)", marginTop: 8, fontWeight: 500 }}>{s.l}</div>
             </div>
           ))}
@@ -245,7 +351,7 @@ export default function Page() {
       {/* SERVICES */}
       <section id="serviços" style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px" }}>
-          <div style={{ textAlign: "center", marginBottom: 60 }}>
+          <div className="reveal" style={{ textAlign: "center", marginBottom: 60 }}>
             <div className="badge" style={{ marginBottom: 20 }}>Serviços</div>
             <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1, marginBottom: 16 }}>
               Tudo que você precisa<br /><span className="gold-text">para crescer de verdade</span>
@@ -256,7 +362,8 @@ export default function Page() {
           </div>
           <div className="grid-3">
             {SERVICES.map((s, i) => (
-              <div key={i} className="glass-card" style={{ padding: 28 }}>
+              <div key={i} className={`glass-card reveal reveal-d${(i % 3) + 1}`} style={{ padding: 28 }}
+                onMouseMove={tilt} onMouseLeave={resetTilt}>
                 <div style={{ fontSize: 28, marginBottom: 16, color: "var(--gold-lt)" }}>{s.icon}</div>
                 <h3 style={{ fontSize: 18, fontWeight: 800, letterSpacing: "-.02em", marginBottom: 10 }}>{s.title}</h3>
                 <p style={{ fontSize: 13, color: "var(--t2)", lineHeight: 1.7, marginBottom: 20 }}>{s.desc}</p>
@@ -274,7 +381,7 @@ export default function Page() {
       {/* PROCESS */}
       <section id="processo" style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
         <div className="grid-2-process">
-          <div>
+          <div className="reveal">
             <div className="badge" style={{ marginBottom: 20 }}>Processo</div>
             <h2 style={{ fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1, marginBottom: 20 }}>
               Do diagnóstico<br /><span className="gold-text">ao resultado</span>
@@ -282,9 +389,9 @@ export default function Page() {
             <p style={{ fontSize: 15, color: "var(--t2)", lineHeight: 1.7, marginBottom: 32 }}>
               Um processo claro, transparente e orientado a resultados. Sem surpresas, sem promessas vazias — só dados e entregas concretas.
             </p>
-            <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary">Começar agora →</a>
+            <a href="/falar" className="btn-primary">Começar agora →</a>
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+          <div className="reveal reveal-d2" style={{ display: "flex", flexDirection: "column", gap: 32 }}>
             {PROCESS.map((p, i) => (
               <div key={i} style={{ display: "flex", gap: 20, position: "relative" }}>
                 {i < PROCESS.length - 1 && (
@@ -307,7 +414,7 @@ export default function Page() {
       {/* FOR WHOM */}
       <section id="para-quem" style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px" }}>
-          <div style={{ textAlign: "center", marginBottom: 60 }}>
+          <div className="reveal" style={{ textAlign: "center", marginBottom: 60 }}>
             <div className="badge" style={{ marginBottom: 20 }}>Para Quem</div>
             <h2 style={{ fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1, marginBottom: 16 }}>
               Feito para quem quer<br /><span className="gold-text">crescer com consistência</span>
@@ -315,7 +422,8 @@ export default function Page() {
           </div>
           <div className="grid-3">
             {FOR_WHOM.map((f, i) => (
-              <div key={i} className="glass-card" style={{ padding: 24, display: "flex", gap: 18, alignItems: "flex-start" }}>
+              <div key={i} className={`glass-card reveal reveal-d${(i % 3) + 1}`} style={{ padding: 24, display: "flex", gap: 18, alignItems: "flex-start" }}
+                onMouseMove={tilt} onMouseLeave={resetTilt}>
                 <div style={{ fontSize: 28, flexShrink: 0 }}>{f.icon}</div>
                 <div>
                   <h3 style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-.01em", marginBottom: 8 }}>{f.title}</h3>
@@ -330,13 +438,13 @@ export default function Page() {
       {/* COMPARISON */}
       <section style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px" }}>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
+          <div className="reveal" style={{ textAlign: "center", marginBottom: 48 }}>
             <div className="badge" style={{ marginBottom: 20 }}>Diferenciais</div>
             <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1 }}>
               Somos diferentes.<br /><span className="gold-text">Isso é um fato.</span>
             </h2>
           </div>
-          <div className="table-scroll" style={{ border: "1px solid rgba(255,255,255,.07)" }}>
+          <div className="table-scroll reveal reveal-d2" style={{ border: "1px solid rgba(255,255,255,.07)" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", background: "rgba(255,255,255,.025)", minWidth: 480 }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(255,255,255,.07)" }}>
@@ -373,7 +481,7 @@ export default function Page() {
 
       {/* TESTIMONIALS */}
       <section style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
-        <div style={{ textAlign: "center", marginBottom: 48, padding: "0 24px" }}>
+        <div className="reveal" style={{ textAlign: "center", marginBottom: 48, padding: "0 24px" }}>
           <div className="badge" style={{ marginBottom: 20 }}>Depoimentos</div>
           <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1 }}>
             O que nossos clientes<br /><span className="gold-text">estão dizendo</span>
@@ -405,13 +513,13 @@ export default function Page() {
       {/* FAQ */}
       <section id="faq" style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 720, margin: "0 auto", padding: "0 24px" }}>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
+          <div className="reveal" style={{ textAlign: "center", marginBottom: 48 }}>
             <div className="badge" style={{ marginBottom: 20 }}>FAQ</div>
             <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, letterSpacing: "-.04em" }}>
               Perguntas <span className="gold-text">frequentes</span>
             </h2>
           </div>
-          <div>
+          <div className="reveal reveal-d2">
             {FAQS.map((f, i) => (
               <div key={i} className="faq-item">
                 <button className="faq-q" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
@@ -428,7 +536,7 @@ export default function Page() {
       {/* CTA FINAL */}
       <section id="contato" style={{ padding: "80px 24px 120px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
-          <div className="cta-box" style={{ background: "rgba(201,162,39,.06)", border: "1px solid rgba(201,162,39,.2)", position: "relative", overflow: "hidden" }}>
+          <div className="cta-box reveal" style={{ background: "rgba(201,162,39,.06)", border: "1px solid rgba(201,162,39,.2)", position: "relative", overflow: "hidden" }}>
             <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center top, rgba(201,162,39,.1) 0%, transparent 70%)", pointerEvents: "none" }} />
             <div className="badge" style={{ marginBottom: 24 }}>Vamos conversar</div>
             <h2 style={{ fontSize: "clamp(28px, 5vw, 48px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1, marginBottom: 16 }}>
