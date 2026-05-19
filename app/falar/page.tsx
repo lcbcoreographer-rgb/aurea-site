@@ -176,8 +176,38 @@ Modelo de interesse: Mentoria ${d.modelo}
 const WA          = "5541987850818";
 const BACKEND_URL = "https://whatsap-agent-whatsap-agent.nctu8q.easypanel.host";
 
+// ── Country codes ─────────────────────────────────────────────────────────────
+const COUNTRIES = [
+  { flag: "🇧🇷", name: "Brasil",      dial: "+55"  },
+  { flag: "🇦🇷", name: "Argentina",   dial: "+54"  },
+  { flag: "🇧🇴", name: "Bolívia",     dial: "+591" },
+  { flag: "🇨🇦", name: "Canadá",      dial: "+1"   },
+  { flag: "🇨🇱", name: "Chile",       dial: "+56"  },
+  { flag: "🇨🇴", name: "Colômbia",    dial: "+57"  },
+  { flag: "🇨🇺", name: "Cuba",        dial: "+53"  },
+  { flag: "🇪🇨", name: "Equador",     dial: "+593" },
+  { flag: "🇩🇪", name: "Alemanha",    dial: "+49"  },
+  { flag: "🇪🇸", name: "Espanha",     dial: "+34"  },
+  { flag: "🇺🇸", name: "EUA",         dial: "+1"   },
+  { flag: "🇫🇷", name: "França",      dial: "+33"  },
+  { flag: "🇬🇧", name: "Reino Unido", dial: "+44"  },
+  { flag: "🇮🇹", name: "Itália",      dial: "+39"  },
+  { flag: "🇲🇽", name: "México",      dial: "+52"  },
+  { flag: "🇵🇦", name: "Panamá",      dial: "+507" },
+  { flag: "🇵🇾", name: "Paraguai",    dial: "+595" },
+  { flag: "🇵🇪", name: "Peru",        dial: "+51"  },
+  { flag: "🇵🇹", name: "Portugal",    dial: "+351" },
+  { flag: "🇺🇾", name: "Uruguai",     dial: "+598" },
+  { flag: "🇻🇪", name: "Venezuela",   dial: "+58"  },
+  { flag: "🇯🇵", name: "Japão",       dial: "+81"  },
+  { flag: "🇦🇺", name: "Austrália",   dial: "+61"  },
+];
+
 // ── Backend payload builder ───────────────────────────────────────────────────
-function buildBackendPayload(flow: Flow, d: D, score: number, cl: ReturnType<typeof classify>) {
+function buildBackendPayload(flow: Flow, d: D, score: number, cl: ReturnType<typeof classify>, dialPrefix = "+55") {
+  const phoneDigits  = (d.whatsapp ?? "").replace(/\D/g, "");
+  const prefixDigits = dialPrefix.replace(/\D/g, "");
+  const fullPhone    = prefixDigits + phoneDigits;
   const quality = cl.hot || score >= 61 ? "quente" : score >= 31 ? "morno" : "frio";
   const analise = flow === "servicos"
     ? `Lead Serviços | Score ${score}/100 | ${cl.label} | Segmento: ${d.segmento} | Tráfego: ${d.trafegoPago} | Atendimento: ${d.atendimento} | Perde vendas: ${d.perdaVendas} | Leads/mês: ${d.leadsMonth} | Faturamento: ${d.faturamento} | Desafio: ${d.desafio} | Investimento: ${d.investimento} | Cidade: ${d.cidade}`
@@ -189,7 +219,8 @@ function buildBackendPayload(flow: Flow, d: D, score: number, cl: ReturnType<typ
     perfil:              cl.label,
     nome:                d.nome    ?? "",
     email:               d.email   ?? "",
-    whatsapp:            d.whatsapp ?? "",
+    whatsapp:            fullPhone,
+    whatsapp_pais:       dialPrefix,
     empresa:             d.empresa ?? "",
     cidade:              d.cidade  ?? "",
     score,
@@ -218,9 +249,10 @@ export default function FalarPage() {
   const [done,        setDone]        = useState(false);
   const [anim,        setAnim]        = useState(false);
   const [fwd,         setFwd]         = useState(true);
-  const [submitting,  setSubmitting]  = useState(false);
-  const [submitError, setSubmitError] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<string[]>([]);
+  const [submitting,   setSubmitting]  = useState(false);
+  const [submitError,  setSubmitError] = useState(false);
+  const [fieldErrors,  setFieldErrors] = useState<string[]>([]);
+  const [phonePrefix,  setPhonePrefix] = useState("+55");
 
   const steps: StepDef[] = flow === "servicos" ? SV : flow === "mentoria" ? MT : CU;
   const cur: StepDef | undefined = steps[step];
@@ -268,7 +300,7 @@ export default function FalarPage() {
       try {
         const s     = calcScore(flow, data);
         const cl2   = classify(flow, s, data);
-        const payload = buildBackendPayload(flow, data, s, cl2);
+        const payload = buildBackendPayload(flow, data, s, cl2, phonePrefix);
         console.log("[CRM] Enviando via /api/lead...");
 
         const controller = new AbortController();
@@ -319,18 +351,46 @@ export default function FalarPage() {
           {cur.fields.map(f => (
             <div key={f.id}>
               <label style={{ display: "block", fontSize: 12, fontWeight: 700, color: "var(--t2)", marginBottom: 6, letterSpacing: ".03em", textTransform: "uppercase" }}>{f.label}</label>
-              <input
-                type={f.type || "text"}
-                placeholder={f.placeholder}
-                value={data[f.id] || ""}
-                onChange={e => {
-                  setData(p => ({ ...p, [f.id]: e.target.value }));
-                  // Clear error for this field on change
-                  setFieldErrors(prev => prev.filter(e => e !== f.id && e !== `${f.id}_fmt`));
-                }}
-                className={`falar-input${(fieldErrors.includes(f.id) || fieldErrors.includes(`${f.id}_fmt`)) ? " error" : ""}`}
-                onKeyDown={e => e.key === "Enter" && next()}
-              />
+              {f.type === "tel" ? (
+                <div style={{ display: "flex", gap: 8 }}>
+                  <select
+                    value={phonePrefix}
+                    onChange={e => setPhonePrefix(e.target.value)}
+                    className="falar-input falar-country"
+                    style={{ width: 118, flexShrink: 0, paddingLeft: 10, paddingRight: 10 }}
+                  >
+                    {COUNTRIES.map(c => (
+                      <option key={`${c.dial}-${c.name}`} value={c.dial} style={{ background: "#111" }}>
+                        {c.flag}  {c.dial} {c.name}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    type="tel"
+                    placeholder={phonePrefix === "+55" ? "41 99999-9999" : "número local"}
+                    value={data[f.id] || ""}
+                    onChange={e => {
+                      setData(p => ({ ...p, [f.id]: e.target.value }));
+                      setFieldErrors(prev => prev.filter(x => x !== f.id && x !== `${f.id}_fmt`));
+                    }}
+                    className={`falar-input${(fieldErrors.includes(f.id) || fieldErrors.includes(`${f.id}_fmt`)) ? " error" : ""}`}
+                    style={{ flex: 1 }}
+                    onKeyDown={e => e.key === "Enter" && next()}
+                  />
+                </div>
+              ) : (
+                <input
+                  type={f.type || "text"}
+                  placeholder={f.placeholder}
+                  value={data[f.id] || ""}
+                  onChange={e => {
+                    setData(p => ({ ...p, [f.id]: e.target.value }));
+                    setFieldErrors(prev => prev.filter(x => x !== f.id && x !== `${f.id}_fmt`));
+                  }}
+                  className={`falar-input${(fieldErrors.includes(f.id) || fieldErrors.includes(`${f.id}_fmt`)) ? " error" : ""}`}
+                  onKeyDown={e => e.key === "Enter" && next()}
+                />
+              )}
               {fieldErrors.includes(f.id) && (
                 <span style={{ fontSize: 11, color: "#ff6b6b", marginTop: 4, display: "block" }}>Campo obrigatório</span>
               )}
@@ -578,8 +638,8 @@ function validEmail(v: string) {
 }
 function validPhone(v: string) {
   const digits = v.replace(/\D/g, "");
-  // Brazilian: DDD (2) + 8 or 9 digits = 10 or 11 digits; with country code: 12 or 13
-  return digits.length >= 10 && digits.length <= 13;
+  // Local number (without country prefix): at least 6 digits (e.g. some short intl numbers)
+  return digits.length >= 6 && digits.length <= 15;
 }
 
 function isStepValid(cur: StepDef | undefined, data: D): boolean {
