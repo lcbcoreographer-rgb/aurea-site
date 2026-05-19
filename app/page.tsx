@@ -97,6 +97,7 @@ const CLIENTS = [
 
 export default function Page() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [mobileMenu, setMobileMenu] = useState(false);
 
   return (
     <>
@@ -127,8 +128,31 @@ export default function Page() {
             Mentoria ✦
           </a>
         </div>
-        <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 13, padding: "10px 20px", whiteSpace: "nowrap" }}>Falar com especialista →</a>
+        <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary hide-mobile" style={{ fontSize: 13, padding: "10px 20px", whiteSpace: "nowrap" }}>Falar com especialista →</a>
+        <button className="show-mobile" onClick={() => setMobileMenu(!mobileMenu)} style={{ background: "none", border: "1px solid rgba(255,255,255,.12)", borderRadius: 8, padding: "8px 12px", cursor: "pointer", color: "#fff", fontSize: 18, lineHeight: 1 }}>
+          {mobileMenu ? "✕" : "☰"}
+        </button>
       </nav>
+
+      {/* MOBILE MENU */}
+      {mobileMenu && (
+        <div style={{ position: "fixed", top: 68, left: 0, right: 0, zIndex: 99, background: "rgba(0,0,0,.96)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,.08)", padding: "24px 24px 32px", display: "flex", flexDirection: "column", gap: 0 }}>
+          {["Serviços", "Processo", "Para Quem", "FAQ"].map(l => (
+            <a key={l} href={`#${l.toLowerCase().replace(" ", "-")}`} onClick={() => setMobileMenu(false)}
+              style={{ fontSize: 16, fontWeight: 600, color: "var(--t2)", textDecoration: "none", padding: "16px 0", borderBottom: "1px solid rgba(255,255,255,.05)" }}>
+              {l}
+            </a>
+          ))}
+          <a href="/mentoria" onClick={() => setMobileMenu(false)}
+            style={{ fontSize: 16, fontWeight: 700, color: "var(--gold-lt)", textDecoration: "none", padding: "16px 0", borderBottom: "1px solid rgba(255,255,255,.05)" }}>
+            Mentoria ✦
+          </a>
+          <a href="https://linktree-lucavespaa.lovable.app/" target="_blank" rel="noopener noreferrer" className="btn-primary" onClick={() => setMobileMenu(false)}
+            style={{ marginTop: 20, justifyContent: "center", fontSize: 15 }}>
+            Falar com especialista →
+          </a>
+        </div>
+      )}
 
       {/* HERO */}
       <section style={{ paddingTop: 160, paddingBottom: 100, textAlign: "center", position: "relative", zIndex: 1 }}>
