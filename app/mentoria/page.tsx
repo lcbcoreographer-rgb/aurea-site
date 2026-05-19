@@ -142,7 +142,7 @@ export default function MentoriaPage() {
                   onClick={() => setOpenPillar(openPillar === i ? null : i)}
                   style={{ width: "100%", background: "none", border: "none", cursor: "pointer", padding: "28px 32px", display: "flex", alignItems: "center", gap: 24, textAlign: "left", fontFamily: "Inter, sans-serif" }}
                 >
-                  <div style={{ width: 52, height: 52, borderRadius: 14, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: openPillar === i ? "rgba(201,162,39,.15)" : "rgba(201,162,39,.06)", border: `1px solid ${openPillar === i ? "rgba(201,162,39,.4)" : "rgba(201,162,39,.18)"}`, fontSize: 13, fontWeight: 800, color: "var(--gold-lt)", transition: "all .2s" }}>{p.num}</div>
+                  <div style={{ width: 52, height: 52, borderRadius: 14, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: openPillar === i ? "rgba(192,144,40,.15)" : "rgba(192,144,40,.06)", border: `1px solid ${openPillar === i ? "rgba(192,144,40,.4)" : "rgba(192,144,40,.18)"}`, fontSize: 13, fontWeight: 800, color: "var(--gold-lt)", transition: "all .2s" }}>{p.num}</div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 11, color: "var(--t3)", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", marginBottom: 4 }}>Pilar {p.num}</div>
                     <div style={{ fontSize: 22, fontWeight: 900, color: "#fff", letterSpacing: "-.03em" }}>{p.title}</div>
@@ -170,7 +170,7 @@ export default function MentoriaPage() {
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
                           {p.groups.map((g, gi) => (
                             <div key={gi}>
-                              <div style={{ fontSize: 10, fontWeight: 800, color: "var(--gold-lt)", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 14, paddingBottom: 8, borderBottom: "1px solid rgba(201,162,39,.18)" }}>{g.label}</div>
+                              <div style={{ fontSize: 10, fontWeight: 800, color: "var(--gold-lt)", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 14, paddingBottom: 8, borderBottom: "1px solid rgba(192,144,40,.18)" }}>{g.label}</div>
                               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                                 {g.items.map((item, ii) => (
                                   <div key={ii} style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -204,8 +204,8 @@ export default function MentoriaPage() {
       {/* OBJETIVO FINAL */}
       <section style={{ padding: "40px 24px 80px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
-          <div style={{ background: "rgba(201,162,39,.04)", border: "1px solid rgba(201,162,39,.18)", borderRadius: 20, padding: "48px 48px", position: "relative", overflow: "hidden" }}>
-            <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at top left, rgba(201,162,39,.09) 0%, transparent 65%)", pointerEvents: "none" }} />
+          <div style={{ background: "rgba(192,144,40,.04)", border: "1px solid rgba(192,144,40,.18)", borderRadius: 20, padding: "48px 48px", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at top left, rgba(192,144,40,.09) 0%, transparent 65%)", pointerEvents: "none" }} />
             <div style={{ fontSize: 11, fontWeight: 700, color: "var(--gold-lt)", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 16 }}>Objetivo final</div>
             <h2 style={{ fontSize: "clamp(24px, 3.5vw, 40px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.15, marginBottom: 20 }}>
               Criar uma operação onde você<br />
@@ -250,10 +250,10 @@ export default function MentoriaPage() {
             </div>
 
             {/* Nível 2 */}
-            <div className="glass-card" style={{ padding: 36, borderColor: "rgba(201,162,39,.3)", background: "rgba(201,162,39,.04)" }}>
+            <div className="glass-card" style={{ padding: 36, borderColor: "rgba(192,144,40,.3)", background: "rgba(192,144,40,.04)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
                 <span style={{ fontSize: 11, fontWeight: 700, color: "var(--gold-lt)", letterSpacing: ".08em", textTransform: "uppercase" }}>Nível 02</span>
-                <span style={{ fontSize: 10, background: "rgba(201,162,39,.12)", border: "1px solid rgba(201,162,39,.3)", color: "var(--gold-lt)", borderRadius: 99, padding: "2px 10px", fontWeight: 700 }}>Premium</span>
+                <span style={{ fontSize: 10, background: "rgba(192,144,40,.12)", border: "1px solid rgba(192,144,40,.3)", color: "var(--gold-lt)", borderRadius: 99, padding: "2px 10px", fontWeight: 700 }}>Premium</span>
               </div>
               <h3 style={{ fontSize: 22, fontWeight: 900, letterSpacing: "-.03em", marginBottom: 14 }}>Mentoria Individual</h3>
               <p style={{ fontSize: 14, color: "var(--t2)", lineHeight: 1.75, marginBottom: 28 }}>
@@ -276,8 +276,8 @@ export default function MentoriaPage() {
       {/* CTA FINAL */}
       <section style={{ padding: "0 24px 120px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
-          <div style={{ background: "rgba(201,162,39,.06)", border: "1px solid rgba(201,162,39,.2)", borderRadius: 24, padding: "60px 40px", position: "relative", overflow: "hidden" }}>
-            <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center top, rgba(201,162,39,.1) 0%, transparent 70%)", pointerEvents: "none" }} />
+          <div style={{ background: "rgba(192,144,40,.06)", border: "1px solid rgba(192,144,40,.2)", borderRadius: 24, padding: "60px 40px", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center top, rgba(192,144,40,.1) 0%, transparent 70%)", pointerEvents: "none" }} />
             <div className="badge" style={{ marginBottom: 24 }}>Vamos conversar</div>
             <h2 style={{ fontSize: "clamp(26px, 4.5vw, 44px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1, marginBottom: 16 }}>
               Pronto para transformar<br /><span className="gold-text">seu negócio?</span>

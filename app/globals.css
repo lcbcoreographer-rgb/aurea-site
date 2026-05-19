@@ -4,15 +4,16 @@
 @tailwind utilities;
 
 :root {
-  --gold:     #C9A227;
-  --gold2:    #A8841C;
-  --gold-lt:  #DDB93A;
-  --gold-dim: rgba(201,162,39,.1);
+  --gold:     #C09028;   /* warm metallic gold */
+  --gold2:    #9A7020;   /* deep shadow gold   */
+  --gold-lt:  #D4A83C;   /* medium gold        */
+  --gold-hi:  #F0CE6A;   /* shimmer highlight  */
+  --gold-dim: rgba(192,144,40,.1);
   --bg:       #000000;
   --bg2:      #080808;
   --bg3:      #0F0F0F;
   --bdr:      rgba(255,255,255,.07);
-  --bdr-gold: rgba(201,162,39,.28);
+  --bdr-gold: rgba(192,144,40,.28);
   --text:     #FFFFFF;
   --t2:       #888880;
   --t3:       #444440;
@@ -33,14 +34,35 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--gold2); border-radius: 99px; }
 
+/* ── Metallic gold lustre — animated light sweep ─────── */
+@keyframes gold-lustre {
+  0%, 100% { background-position: 0% center; }
+  50%       { background-position: 100% center; }
+}
+
 .gold-text {
-  background: linear-gradient(135deg, var(--gold-lt) 0%, var(--gold) 60%, var(--gold2) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  background: linear-gradient(
+    105deg,
+    #7A5510 0%,
+    #C09028 22%,
+    #D4A83C 38%,
+    #F0CE6A 48%,
+    #FFF3B0 50%,
+    #F0CE6A 52%,
+    #D4A83C 62%,
+    #C09028 78%,
+    #7A5510 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gold-lustre 5s ease-in-out infinite;
 }
 
 .badge {
   display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(201,162,39,.08); border: 1px solid rgba(201,162,39,.22);
+  background: rgba(192,144,40,.08); border: 1px solid rgba(192,144,40,.22);
   border-radius: 99px; padding: 6px 16px;
   font-size: 11px; font-weight: 700; color: var(--gold-lt);
   letter-spacing: .06em; text-transform: uppercase;
@@ -57,13 +79,19 @@ body {
 
 .btn-primary {
   position: relative; overflow: hidden;
-  background: linear-gradient(135deg, var(--gold-lt), var(--gold2));
+  background: linear-gradient(110deg, #D4A83C 0%, #9A7020 40%, #C09028 55%, #D4A83C 100%);
+  background-size: 200% 100%;
   color: #000; font-weight: 700; font-size: 14px; letter-spacing: -.01em;
   padding: 14px 28px; border-radius: 10px; border: none;
   cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
-  font-family: 'Plus Jakarta Sans', sans-serif; transition: all .2s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: background-position .4s ease, box-shadow .2s, transform .2s;
 }
-.btn-primary:hover { box-shadow: 0 0 40px rgba(201,162,39,.5); transform: translateY(-2px); }
+.btn-primary:hover {
+  background-position: 100% 0;
+  box-shadow: 0 0 36px rgba(192,144,40,.45), 0 4px 20px rgba(0,0,0,.4);
+  transform: translateY(-2px);
+}
 
 .btn-ghost {
   background: transparent; color: var(--t2); font-size: 14px; font-weight: 600;
@@ -73,7 +101,7 @@ body {
 }
 .btn-ghost:hover { border-color: var(--bdr-gold); color: var(--text); }
 
-.divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(201,162,39,.2), transparent); }
+.divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(192,144,40,.2), transparent); }
 
 .show-mobile { display: none; }
 .ticker-wrap { overflow: hidden; mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent); }
@@ -97,7 +125,7 @@ body {
 
 .process-line {
   position: absolute; left: 19px; top: 48px; bottom: -40px; width: 1px;
-  background: linear-gradient(to bottom, rgba(201,162,39,.3), transparent);
+  background: linear-gradient(to bottom, rgba(192,144,40,.3), transparent);
 }
 
 @keyframes fade-up { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:none} }
@@ -145,7 +173,7 @@ h3 { letter-spacing: -.02em; }
 .cursor-ring {
   position: fixed; top: 0; left: 0; z-index: 99998;
   width: 36px; height: 36px; border-radius: 50%;
-  border: 1.5px solid rgba(201,162,39,.45);
+  border: 1.5px solid rgba(192,144,40,.45);
   pointer-events: none; opacity: 0; will-change: transform;
   transition: width .25s var(--ease), height .25s var(--ease),
               border-color .25s, background .25s, opacity .3s;
@@ -153,16 +181,22 @@ h3 { letter-spacing: -.02em; }
 .cursor-ring.cursor-expand {
   width: 56px; height: 56px;
   border-color: var(--gold-lt);
-  background: rgba(201,162,39,.06);
+  background: rgba(192,144,40,.06);
 }
 
 /* ── Scroll Progress Bar ────────────────────────────── */
+@keyframes bar-shimmer {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
 .scroll-progress-bar {
   position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 99999;
-  background: linear-gradient(90deg, var(--gold2), var(--gold-lt), var(--gold2));
+  background: linear-gradient(90deg, #9A7020, #D4A83C, #F0CE6A, #FFF3B0, #F0CE6A, #D4A83C, #9A7020);
+  background-size: 300% 100%;
+  animation: bar-shimmer 2.5s linear infinite;
   transform-origin: left; transform: scaleX(0);
   pointer-events: none;
-  box-shadow: 0 0 12px rgba(201,162,39,.6);
+  box-shadow: 0 0 10px rgba(240,206,106,.7), 0 0 4px rgba(255,243,176,.5);
 }
 
 /* ── Scroll Reveal ──────────────────────────────────── */
@@ -253,7 +287,7 @@ body::after {
   transition: all .22s cubic-bezier(.16,1,.3,1);
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
-.falar-opt:hover { background: rgba(255,255,255,.04) !important; border-color: rgba(201,162,39,.28) !important; }
+.falar-opt:hover { background: rgba(255,255,255,.04) !important; border-color: rgba(192,144,40,.28) !important; }
 
 /* Radio circle */
 .falar-radio {
@@ -272,7 +306,7 @@ body::after {
   transition: border-color .2s, box-shadow .2s;
 }
 .falar-input::placeholder { color: var(--t3); }
-.falar-input:focus { border-color: rgba(201,162,39,.45); box-shadow: 0 0 0 3px rgba(201,162,39,.07); }
+.falar-input:focus { border-color: rgba(192,144,40,.45); box-shadow: 0 0 0 3px rgba(192,144,40,.07); }
 .falar-input.error { border-color: rgba(255,107,107,.5); }
 
 /* Legacy classes kept for compatibility */

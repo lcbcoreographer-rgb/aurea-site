@@ -74,9 +74,9 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
           // Active glow
           if (card) {
             const isA = Math.abs(normAng) < 20;
-            card.style.borderColor     = isA ? "rgba(201,162,39,.45)" : "rgba(255,255,255,.07)";
-            card.style.background      = isA ? "rgba(201,162,39,.08)" : "rgba(255,255,255,.025)";
-            card.style.boxShadow       = isA ? "0 8px 48px rgba(201,162,39,.18)" : "none";
+            card.style.borderColor     = isA ? "rgba(192,144,40,.45)" : "rgba(255,255,255,.07)";
+            card.style.background      = isA ? "rgba(192,144,40,.08)" : "rgba(255,255,255,.025)";
+            card.style.boxShadow       = isA ? "0 8px 48px rgba(192,144,40,.18)" : "none";
           }
         });
       }
@@ -109,13 +109,13 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
             {items.map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 14, position: "relative" }}>
                 {i < items.length - 1 && (
-                  <div style={{ position: "absolute", left: 18, top: 40, bottom: -24, width: 1, background: "linear-gradient(to bottom, rgba(201,162,39,.25), transparent)" }} />
+                  <div style={{ position: "absolute", left: 18, top: 40, bottom: -24, width: 1, background: "linear-gradient(to bottom, rgba(192,144,40,.25), transparent)" }} />
                 )}
-                <div style={{ width: 36, height: 36, borderRadius: 9, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(201,162,39,.08)", border: "1px solid rgba(201,162,39,.22)", fontSize: 10, fontWeight: 900, color: "var(--gold-lt)" }}>{item.num}</div>
+                <div style={{ width: 36, height: 36, borderRadius: 9, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(192,144,40,.08)", border: "1px solid rgba(192,144,40,.22)", fontSize: 10, fontWeight: 900, color: "var(--gold-lt)" }}>{item.num}</div>
                 <div style={{ paddingTop: 2 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4, flexWrap: "wrap" }}>
                     <span style={{ fontSize: 14, fontWeight: 700 }}>{item.title}</span>
-                    <span style={{ fontSize: 10, color: "var(--gold-lt)", background: "rgba(201,162,39,.08)", border: "1px solid rgba(201,162,39,.15)", borderRadius: 99, padding: "2px 7px", fontWeight: 700 }}>{item.time}</span>
+                    <span style={{ fontSize: 10, color: "var(--gold-lt)", background: "rgba(192,144,40,.08)", border: "1px solid rgba(192,144,40,.15)", borderRadius: 99, padding: "2px 7px", fontWeight: 700 }}>{item.time}</span>
                   </div>
                   <p style={{ fontSize: 13, color: "var(--t2)", lineHeight: 1.65 }}>{item.desc}</p>
                 </div>
@@ -149,7 +149,7 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
               position: "absolute", top: "50%", left: "50%",
               transform: "translate(-50%, -1px)",
               width: 260, height: 2, pointerEvents: "none",
-              background: "linear-gradient(90deg, transparent, rgba(201,162,39,.3), transparent)",
+              background: "linear-gradient(90deg, transparent, rgba(192,144,40,.3), transparent)",
             }} />
 
             {/* Perspective scene */}
@@ -203,8 +203,8 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
                         >
                           <div style={{
                             width: 38, height: 38, borderRadius: 10, flexShrink: 0,
-                            background: "rgba(201,162,39,.06)",
-                            border: "1px solid rgba(201,162,39,.18)",
+                            background: "rgba(192,144,40,.06)",
+                            border: "1px solid rgba(192,144,40,.18)",
                             display: "flex", alignItems: "center", justifyContent: "center",
                             fontSize: 11, fontWeight: 900, color: "var(--gold-lt)",
                           }}>
@@ -232,7 +232,7 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
               width: 4, height: 4,
               transform: "translate(-50%, -50%)",
               borderRadius: "50%",
-              boxShadow: "0 0 60px 30px rgba(201,162,39,.07)",
+              boxShadow: "0 0 60px 30px rgba(192,144,40,.07)",
               pointerEvents: "none",
             }} />
           </div>
@@ -253,7 +253,7 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
               <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 12 }}>
                 <span style={{
                   fontSize: 12, fontWeight: 900, color: "var(--gold-lt)",
-                  background: "rgba(201,162,39,.08)", border: "1px solid rgba(201,162,39,.22)",
+                  background: "rgba(192,144,40,.08)", border: "1px solid rgba(192,144,40,.22)",
                   borderRadius: 99, padding: "3px 12px",
                 }}>
                   {items[active].num}
@@ -263,7 +263,7 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
                 </span>
                 <span style={{
                   fontSize: 10, fontWeight: 700, color: "var(--gold-lt)",
-                  background: "rgba(201,162,39,.06)", border: "1px solid rgba(201,162,39,.15)",
+                  background: "rgba(192,144,40,.06)", border: "1px solid rgba(192,144,40,.15)",
                   borderRadius: 99, padding: "2px 9px",
                 }}>
                   {items[active].time}
@@ -283,7 +283,7 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
                 <div key={i} style={{
                   height: 8, borderRadius: 99,
                   width: i === active ? 28 : 8,
-                  background: i === active ? "var(--gold-lt)" : "rgba(201,162,39,.18)",
+                  background: i === active ? "var(--gold-lt)" : "rgba(192,144,40,.18)",
                   transition: "all .45s cubic-bezier(.16,1,.3,1)",
                 }} />
               ))}

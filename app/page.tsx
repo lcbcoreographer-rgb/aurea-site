@@ -105,7 +105,7 @@ function tilt(e: React.MouseEvent<HTMLDivElement>) {
   const y = ((e.clientY - r.top) / r.height - 0.5) * -18;
   el.style.transform = `perspective(700px) rotateX(${y}deg) rotateY(${x}deg) translateY(-5px)`;
   el.style.borderColor = "var(--bdr-gold)";
-  el.style.boxShadow = "0 20px 60px rgba(201,162,39,.12)";
+  el.style.boxShadow = "0 20px 60px rgba(192,144,40,.12)";
 }
 function resetTilt(e: React.MouseEvent<HTMLDivElement>) {
   const el = e.currentTarget;
@@ -306,7 +306,7 @@ export default function Page() {
               {/* Mini bar chart */}
               <div style={{ marginTop: 20, display: "flex", alignItems: "flex-end", gap: 4, height: 48 }}>
                 {[30, 45, 38, 60, 52, 70, 65, 80, 72, 90, 85, 100, 92, 88].map((h, i) => (
-                  <div key={i} style={{ flex: 1, height: `${h}%`, borderRadius: "3px 3px 1px 1px", background: i === 13 ? "linear-gradient(to top, var(--gold), var(--gold-lt))" : "rgba(201,162,39,.2)", boxShadow: i === 13 ? "0 0 12px rgba(201,162,39,.4)" : "none" }} />
+                  <div key={i} style={{ flex: 1, height: `${h}%`, borderRadius: "3px 3px 1px 1px", background: i === 13 ? "linear-gradient(to top, var(--gold), var(--gold-lt))" : "rgba(192,144,40,.2)", boxShadow: i === 13 ? "0 0 12px rgba(192,144,40,.4)" : "none" }} />
                 ))}
               </div>
             </div>
@@ -493,8 +493,8 @@ export default function Page() {
       {/* CTA FINAL */}
       <section id="contato" style={{ padding: "80px 24px 120px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
-          <div className="cta-box reveal" style={{ background: "rgba(201,162,39,.06)", border: "1px solid rgba(201,162,39,.2)", position: "relative", overflow: "hidden" }}>
-            <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center top, rgba(201,162,39,.1) 0%, transparent 70%)", pointerEvents: "none" }} />
+          <div className="cta-box reveal" style={{ background: "rgba(192,144,40,.06)", border: "1px solid rgba(192,144,40,.2)", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center top, rgba(192,144,40,.1) 0%, transparent 70%)", pointerEvents: "none" }} />
             <div className="badge" style={{ marginBottom: 24 }}>Vamos conversar</div>
             <h2 style={{ fontSize: "clamp(28px, 5vw, 48px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1, marginBottom: 16 }}>
               Pronto para escalar<br /><span className="gold-text">seu negócio?</span>

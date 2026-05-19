@@ -333,10 +333,10 @@ export default function FalarPage() {
             return (
               <button key={opt} onClick={() => setData(p => ({ ...p, [cur.id]: opt }))}
                 className="falar-opt" style={{
-                  background: sel ? "rgba(201,162,39,.08)" : "rgba(255,255,255,.025)",
-                  border: `1px solid ${sel ? "rgba(201,162,39,.5)" : "rgba(255,255,255,.07)"}`,
+                  background: sel ? "rgba(192,144,40,.08)" : "rgba(255,255,255,.025)",
+                  border: `1px solid ${sel ? "rgba(192,144,40,.5)" : "rgba(255,255,255,.07)"}`,
                   transform: sel ? "scale(1.01)" : "scale(1)",
-                  boxShadow: sel ? "0 0 30px rgba(201,162,39,.08)" : "none",
+                  boxShadow: sel ? "0 0 30px rgba(192,144,40,.08)" : "none",
                 }}>
                 <span style={{ fontSize: 14, fontWeight: sel ? 700 : 500, color: sel ? "#fff" : "var(--t2)", flex: 1, textAlign: "left" }}>{opt}</span>
                 <div className="falar-radio" style={{
@@ -361,9 +361,9 @@ export default function FalarPage() {
               <button key={c.value} onClick={() => setData(p => ({ ...p, [cur.id]: c.value }))}
                 className="falar-opt" style={{
                   flexDirection: "column", alignItems: "flex-start", padding: "20px 22px",
-                  background: sel ? "rgba(201,162,39,.07)" : "rgba(255,255,255,.025)",
-                  border: `1px solid ${sel ? "rgba(201,162,39,.5)" : "rgba(255,255,255,.07)"}`,
-                  boxShadow: sel ? "0 0 40px rgba(201,162,39,.1)" : "none",
+                  background: sel ? "rgba(192,144,40,.07)" : "rgba(255,255,255,.025)",
+                  border: `1px solid ${sel ? "rgba(192,144,40,.5)" : "rgba(255,255,255,.07)"}`,
+                  boxShadow: sel ? "0 0 40px rgba(192,144,40,.1)" : "none",
                 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginBottom: 8 }}>
                   <div>
@@ -515,7 +515,7 @@ export default function FalarPage() {
                 <span style={{ fontSize: 11, color: "var(--t3)" }}>{step + 1}/{total}</span>
               </div>
               <div style={{ height: 3, background: "rgba(255,255,255,.06)", borderRadius: 99, overflow: "hidden" }}>
-                <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg, var(--gold2), var(--gold-lt))", borderRadius: 99, transition: "width .4s cubic-bezier(.16,1,.3,1)", boxShadow: "0 0 8px rgba(201,162,39,.5)" }} />
+                <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg, var(--gold2), var(--gold-lt))", borderRadius: 99, transition: "width .4s cubic-bezier(.16,1,.3,1)", boxShadow: "0 0 8px rgba(192,144,40,.5)" }} />
               </div>
             </div>
           )}

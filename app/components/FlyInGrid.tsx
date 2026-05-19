@@ -135,7 +135,7 @@ export default function FlyInGrid({ items, sectionBadge = "Para Quem", heading }
     const y = ((e.clientY - r.top)  / r.height - 0.5) * -16;
     el.style.transform   = `perspective(700px) rotateX(${y}deg) rotateY(${x}deg) translateY(-5px)`;
     el.style.borderColor = "var(--bdr-gold)";
-    el.style.boxShadow   = "0 20px 60px rgba(201,162,39,.12)";
+    el.style.boxShadow   = "0 20px 60px rgba(192,144,40,.12)";
   }
   function resetTilt(e: React.MouseEvent<HTMLDivElement>) {
     const el = e.currentTarget;
