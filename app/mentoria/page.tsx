@@ -98,7 +98,7 @@ export default function MentoriaPage() {
             <span className="gold-text">operação lucrativa</span>
           </h1>
           <p className="fade-up d2" style={{ fontSize: 18, color: "var(--t2)", lineHeight: 1.7, maxWidth: 600, margin: "0 auto 16px", fontWeight: 400 }}>
-            A mentoria da CEO da Aurea Group, <strong style={{ color: "#fff" }}>Luca Vespa</strong>, é baseada em 3 pilares que transformam seu negócio em uma operação simples, lucrativa, previsível e escalável.
+            A mentoria do CEO da Aurea Group, <strong style={{ color: "#fff" }}>Luca Vespa</strong>, é baseada em 3 pilares que transformam seu negócio em uma operação simples, lucrativa, previsível e escalável.
           </p>
           <p className="fade-up d3" style={{ fontSize: 14, color: "var(--t3)", marginBottom: 44 }}>
             Estratégia · Posicionamento · Processos
