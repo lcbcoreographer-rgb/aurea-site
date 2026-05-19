@@ -259,13 +259,12 @@ export default function FalarPage() {
         const s     = calcScore(flow, data);
         const cl2   = classify(flow, s, data);
         const payload = buildBackendPayload(flow, data, s, cl2);
-        console.log("[CRM] Enviando para", `${BACKEND_URL}/n8n/lead`);
-        console.log("[CRM] Payload:", JSON.stringify(payload, null, 2));
+        console.log("[CRM] Enviando via /api/lead...");
 
         const controller = new AbortController();
-        const timeout    = setTimeout(() => controller.abort(), 12000);
+        const timeout    = setTimeout(() => controller.abort(), 15000);
 
-        const res = await fetch(`${BACKEND_URL}/n8n/lead`, {
+        const res = await fetch("/api/lead", {
           method:  "POST",
           headers: { "Content-Type": "application/json" },
           body:    JSON.stringify(payload),
