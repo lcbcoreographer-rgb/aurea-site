@@ -1,87 +1,87 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import ProcessWheel from "./components/ProcessWheel";
 import FlyInGrid    from "./components/FlyInGrid";
 
 const SERVICES = [
   {
-    icon: "◈",
+    icon: "â—ˆ",
     title: "Meta Ads",
-    desc: "Campanhas estratégicas no Facebook e Instagram com segmentação precisa e criativos que convertem. Gerenciamos do zero ao escala.",
+    desc: "Campanhas estratÃ©gicas no Facebook e Instagram com segmentaÃ§Ã£o precisa e criativos que convertem. Gerenciamos do zero ao escala.",
     tags: ["Campanhas", "Criativos", "Remarketing", "A/B Test"],
   },
   {
-    icon: "⊕",
+    icon: "âŠ•",
     title: "Google Ads",
-    desc: "Apareça no momento certo para quem já está procurando o que você oferece. Search, Display, Shopping e YouTube.",
+    desc: "ApareÃ§a no momento certo para quem jÃ¡ estÃ¡ procurando o que vocÃª oferece. Search, Display, Shopping e YouTube.",
     tags: ["Search", "Display", "Shopping", "YouTube"],
   },
   {
-    icon: "✦",
+    icon: "âœ¦",
     title: "Agente IA no WhatsApp",
-    desc: "Seu consultor de vendas disponível 24h. Qualifica leads, responde dúvidas, agenda reuniões e fecha negócios automaticamente.",
-    tags: ["Qualificação", "Agendamento", "CRM", "24/7"],
+    desc: "Seu consultor de vendas disponÃ­vel 24h. Qualifica leads, responde dÃºvidas, agenda reuniÃµes e fecha negÃ³cios automaticamente.",
+    tags: ["QualificaÃ§Ã£o", "Agendamento", "CRM", "24/7"],
   },
   {
-    icon: "⬡",
-    title: "Automações & Integrações",
-    desc: "Conectamos suas ferramentas e eliminamos trabalho repetitivo. Funis automatizados que nutrem leads enquanto você foca no que importa.",
-    tags: ["Funis", "E-mail", "Integrações", "Workflows"],
+    icon: "â¬¡",
+    title: "AutomaÃ§Ãµes & IntegraÃ§Ãµes",
+    desc: "Conectamos suas ferramentas e eliminamos trabalho repetitivo. Funis automatizados que nutrem leads enquanto vocÃª foca no que importa.",
+    tags: ["Funis", "E-mail", "IntegraÃ§Ãµes", "Workflows"],
   },
   {
-    icon: "◉",
+    icon: "â—‰",
     title: "CRM Inteligente",
-    desc: "Dashboard exclusivo com pipeline de vendas, gestão de leads e análise de performance. Tudo em tempo real, tudo integrado.",
-    tags: ["Pipeline", "Leads", "Analytics", "Relatórios"],
+    desc: "Dashboard exclusivo com pipeline de vendas, gestÃ£o de leads e anÃ¡lise de performance. Tudo em tempo real, tudo integrado.",
+    tags: ["Pipeline", "Leads", "Analytics", "RelatÃ³rios"],
   },
   {
-    icon: "△",
-    title: "Consultoria Estratégica",
-    desc: "Diagnóstico completo do seu negócio, benchmarking de mercado e roadmap de crescimento com foco em ROI mensurável.",
-    tags: ["Diagnóstico", "ROI", "Estratégia", "KPIs"],
+    icon: "â–³",
+    title: "Consultoria EstratÃ©gica",
+    desc: "DiagnÃ³stico completo do seu negÃ³cio, benchmarking de mercado e roadmap de crescimento com foco em ROI mensurÃ¡vel.",
+    tags: ["DiagnÃ³stico", "ROI", "EstratÃ©gia", "KPIs"],
   },
 ];
 
 const PROCESS = [
-  { num: "01", title: "Diagnóstico Gratuito", time: "1 hora", desc: "Entendemos seu negócio, público, concorrência e objetivos. Sem compromisso, 100% gratuito." },
-  { num: "02", title: "Proposta Personalizada", time: "24-48h", desc: "Estratégia sob medida com metas claras, investimento definido e expectativas reais." },
-  { num: "03", title: "Kick-off & Onboarding", time: "1 semana", desc: "Configuração completa de contas, pixels, integrações e treinamento do agente IA." },
-  { num: "04", title: "Execução & Otimização", time: "Contínuo", desc: "Gestão ativa das campanhas com otimizações diárias baseadas em dados reais." },
-  { num: "05", title: "Relatórios Semanais", time: "Todo domingo", desc: "Relatório completo de performance com análise IA e próximas ações já planejadas." },
+  { num: "01", title: "DiagnÃ³stico Gratuito", time: "1 hora", desc: "Entendemos seu negÃ³cio, pÃºblico, concorrÃªncia e objetivos. Sem compromisso, 100% gratuito." },
+  { num: "02", title: "Proposta Personalizada", time: "24-48h", desc: "EstratÃ©gia sob medida com metas claras, investimento definido e expectativas reais." },
+  { num: "03", title: "Kick-off & Onboarding", time: "1 semana", desc: "ConfiguraÃ§Ã£o completa de contas, pixels, integraÃ§Ãµes e treinamento do agente IA." },
+  { num: "04", title: "ExecuÃ§Ã£o & OtimizaÃ§Ã£o", time: "ContÃ­nuo", desc: "GestÃ£o ativa das campanhas com otimizaÃ§Ãµes diÃ¡rias baseadas em dados reais." },
+  { num: "05", title: "RelatÃ³rios Semanais", time: "Todo domingo", desc: "RelatÃ³rio completo de performance com anÃ¡lise IA e prÃ³ximas aÃ§Ãµes jÃ¡ planejadas." },
 ];
 
 const FOR_WHOM = [
-  { icon: "🛍️", title: "E-commerce", desc: "Reduza o CAC e aumente o ROAS com campanhas de produto e remarketing inteligente." },
-  { icon: "🎓", title: "Infoprodutores", desc: "Lançamentos, perpétuos e eventos com tráfego qualificado e automação de vendas." },
-  { icon: "🏥", title: "Clínicas & Consultórios", desc: "Agenda sempre cheia com leads qualificados e agendamento automático pelo WhatsApp." },
-  { icon: "🏠", title: "Imobiliárias", desc: "Captação de compradores e locatários com segmentação geográfica e perfil de renda." },
-  { icon: "🏪", title: "Negócios Locais", desc: "Apareça para quem está perto e pronto para comprar. Tráfego local de alta conversão." },
-  { icon: "🚀", title: "Startups & SaaS", desc: "Crescimento previsível com funis de aquisição escaláveis e métricas de produto." },
+  { icon: "ðŸ›ï¸", title: "E-commerce", desc: "Reduza o CAC e aumente o ROAS com campanhas de produto e remarketing inteligente." },
+  { icon: "ðŸŽ“", title: "Infoprodutores", desc: "LanÃ§amentos, perpÃ©tuos e eventos com trÃ¡fego qualificado e automaÃ§Ã£o de vendas." },
+  { icon: "ðŸ¥", title: "ClÃ­nicas & ConsultÃ³rios", desc: "Agenda sempre cheia com leads qualificados e agendamento automÃ¡tico pelo WhatsApp." },
+  { icon: "ðŸ ", title: "ImobiliÃ¡rias", desc: "CaptaÃ§Ã£o de compradores e locatÃ¡rios com segmentaÃ§Ã£o geogrÃ¡fica e perfil de renda." },
+  { icon: "ðŸª", title: "NegÃ³cios Locais", desc: "ApareÃ§a para quem estÃ¡ perto e pronto para comprar. TrÃ¡fego local de alta conversÃ£o." },
+  { icon: "ðŸš€", title: "Startups & SaaS", desc: "Crescimento previsÃ­vel com funis de aquisiÃ§Ã£o escalÃ¡veis e mÃ©tricas de produto." },
 ];
 
 const FAQS = [
-  { q: "Quanto tempo para ver resultados?", a: "Os primeiros resultados costumam aparecer entre 15 e 30 dias após o início das campanhas. Resultados consistentes e escaláveis geralmente se consolidam entre o 2º e 3º mês, conforme otimizamos com base nos dados reais do seu público." },
-  { q: "Qual o investimento mínimo em tráfego pago?", a: "Recomendamos um investimento mínimo de R$1.500/mês em mídia (verba de anúncios). Esse valor é pago diretamente às plataformas (Meta/Google). Nossa gestão é cobrada separadamente." },
-  { q: "Como funciona o agente de IA no WhatsApp?", a: "O agente é treinado com informações do seu negócio e opera 24h por dia. Ele qualifica leads, responde dúvidas, agenda reuniões no Google Calendar e notifica sua equipe quando um cliente está pronto para fechar. Quando necessário, transfere para um humano com todo o contexto da conversa." },
-  { q: "Preciso ter experiência com marketing digital?", a: "Não. Cuidamos de tudo — estratégia, execução e relatórios. Você recebe atualizações semanais em linguagem simples, com foco nos números que realmente importam para o seu negócio." },
-  { q: "Trabalham com contrato de fidelidade?", a: "Não exigimos fidelidade. Acreditamos que o resultado é o melhor argumento para a continuidade. Trabalhamos com contratos mensais renováveis e período de aviso prévio de 30 dias." },
-  { q: "Atendem empresas de qualquer segmento?", a: "Atendemos a maioria dos segmentos B2C e B2B. Temos expertise especial em e-commerce, saúde, educação, imóveis e serviços. Agende um diagnóstico para entendermos se fazemos sentido para o seu negócio." },
+  { q: "Quanto tempo para ver resultados?", a: "Os primeiros resultados costumam aparecer entre 15 e 30 dias apÃ³s o inÃ­cio das campanhas. Resultados consistentes e escalÃ¡veis geralmente se consolidam entre o 2Âº e 3Âº mÃªs, conforme otimizamos com base nos dados reais do seu pÃºblico." },
+  { q: "Qual o investimento mÃ­nimo em trÃ¡fego pago?", a: "Recomendamos um investimento mÃ­nimo de R$1.500/mÃªs em mÃ­dia (verba de anÃºncios). Esse valor Ã© pago diretamente Ã s plataformas (Meta/Google). Nossa gestÃ£o Ã© cobrada separadamente." },
+  { q: "Como funciona o agente de IA no WhatsApp?", a: "O agente Ã© treinado com informaÃ§Ãµes do seu negÃ³cio e opera 24h por dia. Ele qualifica leads, responde dÃºvidas, agenda reuniÃµes no Google Calendar e notifica sua equipe quando um cliente estÃ¡ pronto para fechar. Quando necessÃ¡rio, transfere para um humano com todo o contexto da conversa." },
+  { q: "Preciso ter experiÃªncia com marketing digital?", a: "NÃ£o. Cuidamos de tudo â€” estratÃ©gia, execuÃ§Ã£o e relatÃ³rios. VocÃª recebe atualizaÃ§Ãµes semanais em linguagem simples, com foco nos nÃºmeros que realmente importam para o seu negÃ³cio." },
+  { q: "Trabalham com contrato de fidelidade?", a: "NÃ£o exigimos fidelidade. Acreditamos que o resultado Ã© o melhor argumento para a continuidade. Trabalhamos com contratos mensais renovÃ¡veis e perÃ­odo de aviso prÃ©vio de 30 dias." },
+  { q: "Atendem empresas de qualquer segmento?", a: "Atendemos a maioria dos segmentos B2C e B2B. Temos expertise especial em e-commerce, saÃºde, educaÃ§Ã£o, imÃ³veis e serviÃ§os. Agende um diagnÃ³stico para entendermos se fazemos sentido para o seu negÃ³cio." },
 ];
 
 const TESTIMONIALS = [
-  { name: "Carlos Mendes", role: "CEO — E-commerce de Moda", text: "Em 45 dias o ROAS passou de 1.8x para 3.4x. O agente de WhatsApp qualifica os leads que chegam dos anúncios e já vendemos 3 pedidos grandes sem intervenção humana." },
-  { name: "Ana Beatriz", role: "Fundadora — Clínica Estética", text: "A agenda estava sempre com buracos. Hoje está cheia com 2 semanas de antecedência. O agente IA agenda direto no Google Calendar e avisa a equipe." },
-  { name: "Rafael Torres", role: "Diretor — Imobiliária", text: "Deixamos de perder leads fora do horário comercial. O agente qualifica, entende a necessidade e já manda uma seleção de imóveis. A taxa de visitas agendadas triplicou." },
-  { name: "Juliana Costa", role: "Sócia — Infoprodutora", text: "Meu lançamento bateu R$180k em 7 dias. A automação de WhatsApp seguiu os leads quentes em tempo real enquanto eu estava no palco apresentando." },
-  { name: "Marcos Oliveira", role: "Fundador — SaaS B2B", text: "CAC caiu 38% em dois meses. O funil automatizado nutre os leads por semanas antes de passar para o time comercial — eles chegam muito mais prontos." },
-  { name: "Fernanda Lima", role: "Diretora — Rede de Franquias", text: "Gerenciar anúncios de 12 unidades era um caos. Agora temos relatório semanal unificado e cada franqueado vê sua performance em tempo real." },
+  { name: "Carlos Mendes", role: "CEO â€” E-commerce de Moda", text: "Em 45 dias o ROAS passou de 1.8x para 3.4x. O agente de WhatsApp qualifica os leads que chegam dos anÃºncios e jÃ¡ vendemos 3 pedidos grandes sem intervenÃ§Ã£o humana." },
+  { name: "Ana Beatriz", role: "Fundadora â€” ClÃ­nica EstÃ©tica", text: "A agenda estava sempre com buracos. Hoje estÃ¡ cheia com 2 semanas de antecedÃªncia. O agente IA agenda direto no Google Calendar e avisa a equipe." },
+  { name: "Rafael Torres", role: "Diretor â€” ImobiliÃ¡ria", text: "Deixamos de perder leads fora do horÃ¡rio comercial. O agente qualifica, entende a necessidade e jÃ¡ manda uma seleÃ§Ã£o de imÃ³veis. A taxa de visitas agendadas triplicou." },
+  { name: "Juliana Costa", role: "SÃ³cia â€” Infoprodutora", text: "Meu lanÃ§amento bateu R$180k em 7 dias. A automaÃ§Ã£o de WhatsApp seguiu os leads quentes em tempo real enquanto eu estava no palco apresentando." },
+  { name: "Marcos Oliveira", role: "Fundador â€” SaaS B2B", text: "CAC caiu 38% em dois meses. O funil automatizado nutre os leads por semanas antes de passar para o time comercial â€” eles chegam muito mais prontos." },
+  { name: "Fernanda Lima", role: "Diretora â€” Rede de Franquias", text: "Gerenciar anÃºncios de 12 unidades era um caos. Agora temos relatÃ³rio semanal unificado e cada franqueado vÃª sua performance em tempo real." },
 ];
 
 const STATS = [
-  { v: "R$2M+", l: "em tráfego gerenciado",   count: 2,   prefix: "R$", suffix: "M+" },
-  { v: "150+",  l: "leads qualificados/mês",   count: 150, prefix: "",   suffix: "+"  },
-  { v: "98%",   l: "taxa de retenção",          count: 98,  prefix: "",   suffix: "%"  },
-  { v: "3.2×",  l: "ROAS médio",               count: 3.2, prefix: "",   suffix: "×"  },
+  { v: "R$2M+", l: "em trÃ¡fego gerenciado",   count: 2,   prefix: "R$", suffix: "M+" },
+  { v: "150+",  l: "leads qualificados/mÃªs",   count: 150, prefix: "",   suffix: "+"  },
+  { v: "98%",   l: "taxa de retenÃ§Ã£o",          count: 98,  prefix: "",   suffix: "%"  },
+  { v: "3.2Ã—",  l: "ROAS mÃ©dio",               count: 3.2, prefix: "",   suffix: "Ã—"  },
 ];
 
 const CLIENTS = [
@@ -120,7 +120,7 @@ export default function Page() {
   const [mobileMenu, setMobileMenu] = useState(false);
 
   useEffect(() => {
-    // ── Scroll reveal ────────────────────────────────
+    // â”€â”€ Scroll reveal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const revealObs = new IntersectionObserver(
       (entries) => entries.forEach(e => {
         if (e.isIntersecting) { e.target.classList.add("visible"); revealObs.unobserve(e.target); }
@@ -129,7 +129,7 @@ export default function Page() {
     );
     document.querySelectorAll(".reveal").forEach(el => revealObs.observe(el));
 
-    // ── Counter animation ────────────────────────────
+    // â”€â”€ Counter animation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const counterObs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (!e.isIntersecting) return;
@@ -153,11 +153,11 @@ export default function Page() {
     }, { threshold: 0.6 });
     document.querySelectorAll<HTMLElement>("[data-count]").forEach(el => counterObs.observe(el));
 
-    // ── Hero parallax + scroll progress ─────────────
+    // â”€â”€ Hero parallax + scroll progress â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const onScroll = () => {
       const sy = window.scrollY;
 
-      // Hero parallax — desktop only
+      // Hero parallax â€” desktop only
       if (window.innerWidth >= 768) {
         const hero = document.querySelector<HTMLElement>(".hero-section");
         if (hero) {
@@ -180,7 +180,7 @@ export default function Page() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    // ── Magnetic buttons — desktop/mouse only ────────────
+    // â”€â”€ Magnetic buttons â€” desktop/mouse only â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     type MagnetEntry = { el: HTMLElement; move: (e: MouseEvent) => void; leave: () => void };
     const magnets: MagnetEntry[] = [];
     if (window.matchMedia("(pointer: fine)").matches) document.querySelectorAll<HTMLElement>(".btn-primary, .btn-ghost").forEach(el => {
@@ -216,14 +216,14 @@ export default function Page() {
       {/* Scroll progress bar */}
       <div className="scroll-progress-bar" />
 
-      {/* Scroll hints — desktop only, both sides */}
+      {/* Scroll hints â€” desktop only, both sides */}
       {(["scroll-hint-left", "scroll-hint-right"] as const).map(side => (
         <div key={side} id={side === "scroll-hint-left" ? "scroll-hint" : "scroll-hint-r"} className={`scroll-hint ${side}`}>
           <span className="scroll-hint-label">scroll</span>
           <div className="scroll-hint-track">
             <div className="scroll-hint-fill" />
           </div>
-          <span className="scroll-hint-arrow">↓</span>
+          <span className="scroll-hint-arrow">â†“</span>
         </div>
       ))}
 
@@ -241,7 +241,7 @@ export default function Page() {
           <span style={{ fontSize: 17, fontWeight: 900, letterSpacing: "-.03em" }}>Aurea<span className="gold-text">Group</span></span>
         </div>
         <div className="hide-mobile" style={{ display: "flex", alignItems: "center", gap: 32 }}>
-          {["Serviços", "Processo", "Para Quem", "FAQ"].map(l => (
+          {["ServiÃ§os", "Processo", "Para Quem", "FAQ"].map(l => (
             <a key={l} href={`#${l.toLowerCase().replace(" ", "-")}`} style={{ fontSize: 13, fontWeight: 500, color: "var(--t2)", textDecoration: "none", transition: "color .15s" }}
               onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
               onMouseLeave={e => (e.currentTarget.style.color = "var(--t2)")}>
@@ -251,19 +251,19 @@ export default function Page() {
           <a href="/mentoria" style={{ fontSize: 13, fontWeight: 700, color: "var(--gold-lt)", textDecoration: "none", transition: "color .15s" }}
             onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
             onMouseLeave={e => (e.currentTarget.style.color = "var(--gold-lt)")}>
-            Mentoria ✦
+            Mentoria âœ¦
           </a>
         </div>
-        <a href="/falar" className="btn-primary hide-mobile" style={{ fontSize: 13, padding: "10px 20px", whiteSpace: "nowrap" }}>Falar com especialista →</a>
+        <a href="/forms" className="btn-primary hide-mobile" style={{ fontSize: 13, padding: "10px 20px", whiteSpace: "nowrap" }}>Falar com especialista â†’</a>
         <button className="show-mobile" onClick={() => setMobileMenu(!mobileMenu)} style={{ background: "none", border: "1px solid rgba(255,255,255,.12)", borderRadius: 8, padding: "8px 12px", cursor: "pointer", color: "#fff", fontSize: 18, lineHeight: 1 }}>
-          {mobileMenu ? "✕" : "☰"}
+          {mobileMenu ? "âœ•" : "â˜°"}
         </button>
       </nav>
 
       {/* MOBILE MENU */}
       {mobileMenu && (
         <div style={{ position: "fixed", top: 68, left: 0, right: 0, zIndex: 99, background: "rgba(0,0,0,.96)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,.08)", padding: "24px 24px 32px", display: "flex", flexDirection: "column", gap: 0 }}>
-          {["Serviços", "Processo", "Para Quem", "FAQ"].map(l => (
+          {["ServiÃ§os", "Processo", "Para Quem", "FAQ"].map(l => (
             <a key={l} href={`#${l.toLowerCase().replace(" ", "-")}`} onClick={() => setMobileMenu(false)}
               style={{ fontSize: 16, fontWeight: 600, color: "var(--t2)", textDecoration: "none", padding: "16px 0", borderBottom: "1px solid rgba(255,255,255,.05)" }}>
               {l}
@@ -271,11 +271,11 @@ export default function Page() {
           ))}
           <a href="/mentoria" onClick={() => setMobileMenu(false)}
             style={{ fontSize: 16, fontWeight: 700, color: "var(--gold-lt)", textDecoration: "none", padding: "16px 0", borderBottom: "1px solid rgba(255,255,255,.05)" }}>
-            Mentoria ✦
+            Mentoria âœ¦
           </a>
-          <a href="/falar" className="btn-primary" onClick={() => setMobileMenu(false)}
+          <a href="/forms" className="btn-primary" onClick={() => setMobileMenu(false)}
             style={{ marginTop: 20, justifyContent: "center", fontSize: 15 }}>
-            Falar com especialista →
+            Falar com especialista â†’
           </a>
         </div>
       )}
@@ -284,33 +284,33 @@ export default function Page() {
       <section className="hero-wrap" style={{ paddingTop: 160, paddingBottom: 100, textAlign: "center", position: "relative", zIndex: 1 }}>
         <div className="hero-section" style={{ maxWidth: 860, margin: "0 auto", padding: "0 24px" }}>
           <div className="badge fade-up" style={{ marginBottom: 28 }}>
-            <span className="badge-dot" /> Agência de performance & IA
+            <span className="badge-dot" /> AgÃªncia de performance & IA
           </div>
           <h1 className="fade-up d1" style={{ fontSize: "clamp(40px, 7vw, 76px)", fontWeight: 900, lineHeight: 1.08, letterSpacing: "-.04em", marginBottom: 24 }}>
-            Tráfego pago e IA<br />
+            TrÃ¡fego pago e IA<br />
             <span className="gold-text">que vendem enquanto</span><br />
-            você dorme
+            vocÃª dorme
           </h1>
           <p className="fade-up d2" style={{ fontSize: 18, color: "var(--t2)", lineHeight: 1.7, maxWidth: 580, margin: "0 auto 40px", fontWeight: 400 }}>
-            Automatizamos sua aquisição de clientes com campanhas de alta performance e inteligência artificial. Do lead ao fechamento, tudo conectado.
+            Automatizamos sua aquisiÃ§Ã£o de clientes com campanhas de alta performance e inteligÃªncia artificial. Do lead ao fechamento, tudo conectado.
           </p>
           <div className="fade-up d3" style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="/falar" className="btn-primary">Quero uma proposta gratuita →</a>
-            <a href="#servicos" className="btn-ghost">Ver serviços</a>
+            <a href="/forms" className="btn-primary">Quero uma proposta gratuita â†’</a>
+            <a href="#servicos" className="btn-ghost">Ver serviÃ§os</a>
           </div>
 
-          {/* Hero visual — metrics mockup */}
+          {/* Hero visual â€” metrics mockup */}
           <div className="fade-up d4" style={{ marginTop: 64, position: "relative" }}>
             <div style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.08)", borderRadius: 20, padding: "28px 32px", maxWidth: 680, margin: "0 auto", backdropFilter: "blur(10px)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: "var(--t3)", letterSpacing: ".06em", textTransform: "uppercase" }}>Performance — últimos 30 dias</span>
-                <span style={{ fontSize: 11, background: "rgba(76,175,134,.1)", color: "#4CAF86", border: "1px solid rgba(76,175,134,.2)", borderRadius: 99, padding: "3px 10px", fontWeight: 700 }}>● Ao vivo</span>
+                <span style={{ fontSize: 12, fontWeight: 700, color: "var(--t3)", letterSpacing: ".06em", textTransform: "uppercase" }}>Performance â€” Ãºltimos 30 dias</span>
+                <span style={{ fontSize: 11, background: "rgba(76,175,134,.1)", color: "#4CAF86", border: "1px solid rgba(76,175,134,.2)", borderRadius: 99, padding: "3px 10px", fontWeight: 700 }}>â— Ao vivo</span>
               </div>
               <div className="metrics-grid">
                 {[
                   { l: "Investido", v: "R$12.400", c: "var(--t2)" },
                   { l: "Receita gerada", v: "R$39.680", c: "var(--gold-lt)" },
-                  { l: "ROAS", v: "3.2×", c: "#4CAF86" },
+                  { l: "ROAS", v: "3.2Ã—", c: "#4CAF86" },
                   { l: "Leads", v: "284", c: "var(--cold, #5A9BC8)" },
                 ].map(m => (
                   <div key={m.l} style={{ textAlign: "left" }}>
@@ -346,7 +346,7 @@ export default function Page() {
         <div className="divider" style={{ marginTop: 60 }} />
       </section>
 
-      {/* TICKER — Clientes */}
+      {/* TICKER â€” Clientes */}
       <section style={{ padding: "0 0 80px", position: "relative", zIndex: 1 }}>
         <div style={{ textAlign: "center", marginBottom: 28 }}>
           <span style={{ fontSize: 11, color: "var(--t3)", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase" }}>Empresas que confiam na Aurea Group</span>
@@ -369,15 +369,15 @@ export default function Page() {
       </section>
 
       {/* SERVICES */}
-      <section id="serviços" style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
+      <section id="serviÃ§os" style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px" }}>
           <div className="reveal" style={{ textAlign: "center", marginBottom: 60 }}>
-            <div className="badge" style={{ marginBottom: 20 }}>Serviços</div>
+            <div className="badge" style={{ marginBottom: 20 }}>ServiÃ§os</div>
             <h2 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1, marginBottom: 16 }}>
-              Tudo que você precisa<br /><span className="gold-text">para crescer de verdade</span>
+              Tudo que vocÃª precisa<br /><span className="gold-text">para crescer de verdade</span>
             </h2>
             <p style={{ fontSize: 16, color: "var(--t2)", maxWidth: 520, margin: "0 auto" }}>
-              Combinamos estratégia, tecnologia e inteligência artificial para criar um sistema de aquisição que funciona no piloto automático.
+              Combinamos estratÃ©gia, tecnologia e inteligÃªncia artificial para criar um sistema de aquisiÃ§Ã£o que funciona no piloto automÃ¡tico.
             </p>
           </div>
           <div className="grid-3">
@@ -398,14 +398,14 @@ export default function Page() {
         </div>
       </section>
 
-      {/* PROCESS — 3D wheel */}
+      {/* PROCESS â€” 3D wheel */}
       <ProcessWheel items={PROCESS} />
 
-      {/* FOR WHOM — cinematic fly-in */}
+      {/* FOR WHOM â€” cinematic fly-in */}
       <FlyInGrid
         items={FOR_WHOM}
         sectionBadge="Para Quem"
-        heading={<>Feito para quem quer<br /><span className="gold-text">crescer com consistência</span></>}
+        heading={<>Feito para quem quer<br /><span className="gold-text">crescer com consistÃªncia</span></>}
       />
 
       {/* COMPARISON */}
@@ -414,35 +414,35 @@ export default function Page() {
           <div className="reveal" style={{ textAlign: "center", marginBottom: 48 }}>
             <div className="badge" style={{ marginBottom: 20 }}>Diferenciais</div>
             <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1 }}>
-              Somos diferentes.<br /><span className="gold-text">Isso é um fato.</span>
+              Somos diferentes.<br /><span className="gold-text">Isso Ã© um fato.</span>
             </h2>
           </div>
           <div className="table-scroll reveal reveal-d2" style={{ border: "1px solid rgba(255,255,255,.07)" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", background: "rgba(255,255,255,.025)", minWidth: 480 }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(255,255,255,.07)" }}>
-                  <th style={{ padding: "16px 24px", textAlign: "left", fontSize: 13, color: "var(--t2)", fontWeight: 600 }}>Critério</th>
+                  <th style={{ padding: "16px 24px", textAlign: "left", fontSize: 13, color: "var(--t2)", fontWeight: 600 }}>CritÃ©rio</th>
                   <th style={{ padding: "16px 24px", textAlign: "center", fontSize: 13, fontWeight: 800, color: "var(--gold-lt)" }}>Aurea Group</th>
-                  <th style={{ padding: "16px 24px", textAlign: "center", fontSize: 13, color: "var(--t3)", fontWeight: 600 }}>Agências tradicionais</th>
+                  <th style={{ padding: "16px 24px", textAlign: "center", fontSize: 13, color: "var(--t3)", fontWeight: 600 }}>AgÃªncias tradicionais</th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  ["Relatório semanal de resultados", true, false],
+                  ["RelatÃ³rio semanal de resultados", true, false],
                   ["Agente IA integrado ao WhatsApp", true, false],
-                  ["CRM próprio e exclusivo", true, false],
+                  ["CRM prÃ³prio e exclusivo", true, false],
                   ["Sem contrato de fidelidade", true, false],
                   ["Atendimento no mesmo dia", true, false],
-                  ["Estratégia baseada em dados reais", true, "Parcial"],
-                  ["Equipe dedicada ao seu negócio", true, false],
+                  ["EstratÃ©gia baseada em dados reais", true, "Parcial"],
+                  ["Equipe dedicada ao seu negÃ³cio", true, false],
                 ].map(([c, a, t], i) => (
                   <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,.04)" }}>
                     <td style={{ padding: "14px 24px", fontSize: 13, color: "var(--t2)" }}>{c as string}</td>
                     <td style={{ padding: "14px 24px", textAlign: "center", fontSize: 16 }}>
-                      {a === true ? <span style={{ color: "#4CAF86" }}>✓</span> : <span style={{ color: "var(--t3)" }}>✕</span>}
+                      {a === true ? <span style={{ color: "#4CAF86" }}>âœ“</span> : <span style={{ color: "var(--t3)" }}>âœ•</span>}
                     </td>
                     <td style={{ padding: "14px 24px", textAlign: "center", fontSize: t === "Parcial" ? 12 : 16 }}>
-                      {t === true ? <span style={{ color: "#4CAF86" }}>✓</span> : t === "Parcial" ? <span style={{ color: "var(--gold)", fontWeight: 700 }}>Parcial</span> : <span style={{ color: "var(--t3)" }}>✕</span>}
+                      {t === true ? <span style={{ color: "#4CAF86" }}>âœ“</span> : t === "Parcial" ? <span style={{ color: "var(--gold)", fontWeight: 700 }}>Parcial</span> : <span style={{ color: "var(--t3)" }}>âœ•</span>}
                     </td>
                   </tr>
                 ))}
@@ -457,7 +457,7 @@ export default function Page() {
         <div className="reveal" style={{ textAlign: "center", marginBottom: 48, padding: "0 24px" }}>
           <div className="badge" style={{ marginBottom: 20 }}>Depoimentos</div>
           <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1 }}>
-            O que nossos clientes<br /><span className="gold-text">estão dizendo</span>
+            O que nossos clientes<br /><span className="gold-text">estÃ£o dizendo</span>
           </h2>
         </div>
         <div>
@@ -466,7 +466,7 @@ export default function Page() {
               {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
                 <div key={i} className="glass-card" style={{ width: 380, flexShrink: 0, padding: 28, margin: "0 8px" }}>
                   <div style={{ display: "flex", gap: 2, marginBottom: 16 }}>
-                    {[1,2,3,4,5].map(s => <span key={s} style={{ color: "var(--gold-lt)", fontSize: 14 }}>★</span>)}
+                    {[1,2,3,4,5].map(s => <span key={s} style={{ color: "var(--gold-lt)", fontSize: 14 }}>â˜…</span>)}
                   </div>
                   <p style={{ fontSize: 14, color: "var(--t2)", lineHeight: 1.7, marginBottom: 20, fontStyle: "italic" }}>&ldquo;{t.text}&rdquo;</p>
                   <div style={{ display: "flex", alignItems: "center", gap: 12, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,.06)" }}>
@@ -513,20 +513,20 @@ export default function Page() {
             <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center top, rgba(192,144,40,.1) 0%, transparent 70%)", pointerEvents: "none" }} />
             <div className="badge" style={{ marginBottom: 24 }}>Vamos conversar</div>
             <h2 style={{ fontSize: "clamp(28px, 5vw, 48px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1, marginBottom: 16 }}>
-              Pronto para escalar<br /><span className="gold-text">seu negócio?</span>
+              Pronto para escalar<br /><span className="gold-text">seu negÃ³cio?</span>
             </h2>
             <p style={{ fontSize: 16, color: "var(--t2)", lineHeight: 1.7, marginBottom: 36 }}>
-              Diagnóstico 100% gratuito. Sem compromisso. Resposta em até 1 hora.
+              DiagnÃ³stico 100% gratuito. Sem compromisso. Resposta em atÃ© 1 hora.
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <a href="https://wa.me/5541987850818?text=Olá! Quero um diagnóstico gratuito" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 15, padding: "16px 32px" }}>
-                💬 Falar no WhatsApp
+              <a href="https://wa.me/5541987850818?text=OlÃ¡! Quero um diagnÃ³stico gratuito" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize: 15, padding: "16px 32px" }}>
+                ðŸ’¬ Falar no WhatsApp
               </a>
               <a href="mailto:contato@aureagroup.com.br" className="btn-ghost" style={{ fontSize: 15, padding: "16px 32px" }}>
                 Enviar e-mail
               </a>
             </div>
-            <p style={{ marginTop: 20, fontSize: 12, color: "var(--t3)" }}>Atendemos de segunda a sexta, das 9h às 18h (Brasília)</p>
+            <p style={{ marginTop: 20, fontSize: 12, color: "var(--t3)" }}>Atendemos de segunda a sexta, das 9h Ã s 18h (BrasÃ­lia)</p>
           </div>
         </div>
       </section>
@@ -539,13 +539,13 @@ export default function Page() {
               <img src="/logo.jpg" alt="Aurea Group" style={{ width: 28, height: 28, borderRadius: 7, objectFit: "cover" }} />
               <span style={{ fontSize: 15, fontWeight: 900, letterSpacing: "-.03em" }}>Aurea<span className="gold-text">Group</span></span>
             </div>
-            <p style={{ fontSize: 12, color: "var(--t3)", maxWidth: 300, lineHeight: 1.6 }}>Tráfego pago e IA para negócios que querem crescer de verdade.</p>
+            <p style={{ fontSize: 12, color: "var(--t3)", maxWidth: 300, lineHeight: 1.6 }}>TrÃ¡fego pago e IA para negÃ³cios que querem crescer de verdade.</p>
           </div>
           <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
             <a href="/mentoria" style={{ fontSize: 13, color: "var(--gold-lt)", textDecoration: "none", fontWeight: 700, transition: "color .15s" }}
               onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
               onMouseLeave={e => (e.currentTarget.style.color = "var(--gold-lt)")}>
-              Mentoria ✦
+              Mentoria âœ¦
             </a>
             {[
               { l: "Instagram", h: "#" },
@@ -559,9 +559,10 @@ export default function Page() {
               </a>
             ))}
           </div>
-          <p style={{ fontSize: 12, color: "var(--t3)" }}>© {new Date().getFullYear()} Aurea Group. Todos os direitos reservados.</p>
+          <p style={{ fontSize: 12, color: "var(--t3)" }}>Â© {new Date().getFullYear()} Aurea Group. Todos os direitos reservados.</p>
         </div>
       </footer>
     </>
   );
 }
+
