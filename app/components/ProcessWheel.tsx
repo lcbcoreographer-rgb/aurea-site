@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useEffect, useRef, useState } from "react";
 
 interface Item { num: string; title: string; time: string; desc: string; }
@@ -26,13 +26,13 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
   const [active, setActive] = useState(0);
 
   const N    = items.length;
-  const STEP = 360 / N; // 72Â° for 5 items
+  const STEP = 360 / N; // 72° for 5 items
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    // â”€â”€ Scroll listener â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Scroll listener ─────────────────────────────────
     const onScroll = () => {
       const { top } = section.getBoundingClientRect();
       const scrollH  = section.offsetHeight - window.innerHeight;
@@ -42,7 +42,7 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
       setActive(prev => (prev !== newActive ? newActive : prev));
     };
 
-    // â”€â”€ RAF animation loop â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── RAF animation loop ───────────────────────────────
     const animate = () => {
       const diff = targetAng.current - currentAng.current;
       if (Math.abs(diff) > 0.005) {
@@ -93,14 +93,14 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
     };
   }, [N, STEP, items]);
 
-  // â”€â”€ Mobile fallback: simple vertical timeline â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Mobile fallback: simple vertical timeline ─────────
   if (isMobile) {
     return (
       <section id="processo" style={{ padding: "64px 0", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 560, margin: "0 auto", padding: "0 20px" }}>
           <div className="badge" style={{ marginBottom: 16 }}>Processo</div>
           <h2 style={{ fontSize: "clamp(26px,7vw,36px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.15, marginBottom: 12 }}>
-            Do diagnÃ³stico<br /><span className="gold-text">ao resultado</span>
+            Do diagnóstico<br /><span className="gold-text">ao resultado</span>
           </h2>
           <p style={{ fontSize: 14, color: "var(--t2)", lineHeight: 1.7, marginBottom: 32 }}>
             Processo claro, transparente e orientado a resultados.
@@ -122,7 +122,7 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
               </div>
             ))}
           </div>
-          <a href="/forms" className="btn-primary" style={{ marginTop: 32, display: "inline-flex" }}>ComeÃ§ar agora â†’</a>
+          <a href="/forms" className="btn-primary" style={{ marginTop: 32, display: "inline-flex" }}>Começar agora →</a>
         </div>
       </section>
     );
@@ -142,7 +142,7 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
       }}>
         <div className="process-grid">
 
-          {/* â”€â”€ Left: 3D Wheel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+          {/* ── Left: 3D Wheel ─────────────────────────── */}
           <div className="process-wheel-col">
             {/* Horizontal indicator line */}
             <div style={{
@@ -154,7 +154,7 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
 
             {/* Perspective scene */}
             <div style={{ perspective: "720px", perspectiveOrigin: "50% 50%" }}>
-              {/* Ring â€” rotated by RAF */}
+              {/* Ring — rotated by RAF */}
               <div
                 ref={ringRef}
                 style={{
@@ -176,7 +176,7 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
                         willChange: "opacity",
                       }}
                     >
-                      {/* Counter-rotate â€” updated by RAF */}
+                      {/* Counter-rotate — updated by RAF */}
                       <div
                         ref={el => { contentRefs.current[i] = el; }}
                         style={{
@@ -237,18 +237,18 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
             }} />
           </div>
 
-          {/* â”€â”€ Right: Description â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+          {/* ── Right: Description ─────────────────────── */}
           <div style={{ padding: "0 8px" }}>
             <div className="badge" style={{ marginBottom: 20 }}>Processo</div>
             <h2 style={{
               fontSize: "clamp(28px,4vw,44px)", fontWeight: 900,
               letterSpacing: "-.04em", lineHeight: 1.1, marginBottom: 28,
             }}>
-              Do diagnÃ³stico<br />
+              Do diagnóstico<br />
               <span className="gold-text">ao resultado</span>
             </h2>
 
-            {/* Active description â€” key triggers animation */}
+            {/* Active description — key triggers animation */}
             <div key={active} className="process-desc-in">
               <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 12 }}>
                 <span style={{
@@ -289,13 +289,13 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
               ))}
             </div>
 
-            <a href="/forms" className="btn-primary">ComeÃ§ar agora â†’</a>
+            <a href="/forms" className="btn-primary">Começar agora →</a>
           </div>
 
         </div>
       </div>
 
-      {/* Mobile fallback â€” shown only on small screens */}
+      {/* Mobile fallback — shown only on small screens */}
       <style>{`
         @media (max-width: 768px) {
           .process-grid { grid-template-columns: 1fr !important; }
@@ -305,4 +305,3 @@ export default function ProcessWheel({ items }: { items: Item[] }) {
     </section>
   );
 }
-
