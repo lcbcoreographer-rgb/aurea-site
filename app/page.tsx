@@ -469,7 +469,7 @@ export default function Page() {
             O que nossos clientes<br /><span className="gold-text">estão dizendo</span>
           </h2>
           <a href="https://www.instagram.com/stories/highlights/17922380781183340/" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, fontWeight: 700, color: "var(--gold-lt)", textDecoration: "none" }}>
-            Ver prints reais de clientes →
+            Ver mais depoimentos no Instagram →
           </a>
         </div>
         <div>
