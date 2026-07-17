@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import ProcessWheel from "./components/ProcessWheel";
 import FlyInGrid    from "./components/FlyInGrid";
+import Ticker       from "./components/Ticker";
 
 const SERVICES = [
   {
@@ -68,13 +69,15 @@ const FAQS = [
   { q: "Atendem empresas de qualquer segmento?", a: "Atendemos a maioria dos segmentos B2C e B2B. Temos expertise especial em e-commerce, saúde, educação, imóveis e serviços. Agende um diagnóstico para entendermos se fazemos sentido para o seu negócio." },
 ];
 
-const TESTIMONIALS = [
-  { name: "Carlos Mendes", role: "CEO — E-commerce de Moda", text: "Em 45 dias o ROAS passou de 1.8x para 3.4x. O agente de WhatsApp qualifica os leads que chegam dos anúncios e já vendemos 3 pedidos grandes sem intervenção humana." },
-  { name: "Ana Beatriz", role: "Fundadora — Clínica Estética", text: "A agenda estava sempre com buracos. Hoje está cheia com 2 semanas de antecedência. O agente IA agenda direto no Google Calendar e avisa a equipe." },
-  { name: "Rafael Torres", role: "Diretor — Imobiliária", text: "Deixamos de perder leads fora do horário comercial. O agente qualifica, entende a necessidade e já manda uma seleção de imóveis. A taxa de visitas agendadas triplicou." },
-  { name: "Juliana Costa", role: "Sócia — Infoprodutora", text: "Meu lançamento bateu R$180k em 7 dias. A automação de WhatsApp seguiu os leads quentes em tempo real enquanto eu estava no palco apresentando." },
-  { name: "Marcos Oliveira", role: "Fundador — SaaS B2B", text: "CAC caiu 38% em dois meses. O funil automatizado nutre os leads por semanas antes de passar para o time comercial — eles chegam muito mais prontos." },
-  { name: "Fernanda Lima", role: "Diretora — Rede de Franquias", text: "Gerenciar anúncios de 12 unidades era um caos. Agora temos relatório semanal unificado e cada franqueado vê sua performance em tempo real." },
+const TESTIMONIALS: { name: string; role: string; text: string; photo?: string }[] = [
+  { name: "Araújo", role: "Co-founder — MyBox", text: "Absurdo o trabalho feito para o nosso lançamento da MyBox. Lotamos um grupo com mais de mil pessoas e foi tanto acesso que nossa plataforma caiu! Não estávamos preparados para tantas pessoas, mas o lançamento foi um sucesso: atingimos nossa meta de membros em menos de 3 minutos no ar.", photo: "/testimonials/araujo.jpg" },
+  { name: "Felipe", role: "Estrategista Digital — Kodabox", text: "Eu cheguei na Kodabox praticamente ao mesmo tempo que o Luca, eu já tinha um pouco de trauma com Gestores de Tráfego por conta da alta taxa de valor e nada de resultados. Fiz minha parte do trabalho e aguardei para ver como o Luca ia se sair, e incrivelmente, me surpreendeu. O número de leads por dia tem aumentado, as visitas no site e as vendas também subiram, os seguidores do insta estão duplicando dia a dia e tem sido uma experiência maravilhosa trabalhar em conjunto com esse cara!", photo: "/testimonials/felipe.jpg" },
+  { name: "Jonas Alves", role: "CEO — Vespa Autocenter", text: "Trabalhar com o pessoal da Aurea é top, recebo mensagem o dia todo, mais de 20 mensagens todos os dias, e com a IA no atendimento consigo viajar sem me preocupar, vendendo 24h por dia.", photo: "/testimonials/jonas-alves.jpg" },
+  { name: "Dante", role: "CEO — Maanaim", text: "Top DMs, muito retorno do tráfego, seguidor no perfil da loja, gente chamando todo dia, mais de 5 orçamentos fechados. Duas semanas de loja e nem inaugurei ainda e já fechei 25 mil de serviço. Isso é Áurea — meu melhor investimento do ano, sem dúvidas.", photo: "/testimonials/dante.jpg" },
+  { name: "Silva", role: "CEO — KDB Imports", text: "Um cliente meu tinha gastado mais de 9k em 3 meses com outro gestor de tráfego, sem resultado nenhum. Com apenas 5 dias de Áurea Group ele já vendeu mais do que com o gestor antigo. Boraaaaaa!", photo: "/testimonials/silva.jpg" },
+  { name: "Ramon Henrique", role: "CEO — Ramon Bikes e Acessórios", text: "A gente tinha 500 mensagens por mês. Com o mesmo valor investido mensalmente, agora com a Áurea Group as conversas quase dobraram, com o custo por conversa caindo a cada campanha.", photo: "/testimonials/ramon-henrique.jpg" },
+  { name: "Marcelo Gomes", role: "CEO — 3TECH", text: "Eu nunca tinha tido resultado terceirizando o tráfego, preferia fazer eu mesmo. Até conhecer a Áurea Group: em menos de 30 dias já são 137 compras geradas, R$4.132,80 em valor de conversão.", photo: "/testimonials/marcelo-gomes.jpg" },
+  { name: "Silva", role: "CEO — Koda Box", text: "Imagina investir 60 reais no dia e retornar R$3.627. Foi esse resultado que meu cliente teve: ROAS de 54,13 com a Áurea Group cuidando do tráfego.", photo: "/testimonials/silva.jpg" },
 ];
 
 const STATS = [
@@ -95,6 +98,11 @@ const CLIENTS = [
   { name: "Ramon",     file: "ramon logo.PNG"     },
   { name: "Hawkinds",  file: "hawkinds logo.PNG"  },
   { name: "Vespa",     file: "vespa logo.PNG"     },
+  { name: "Drop Agency", file: "drop agency logo.PNG" },
+  { name: "Medida",      file: "medida logo.PNG"      },
+  { name: "KDB Imports", file: "kdb logo.PNG"         },
+  { name: "Koda Box",    file: "koda box logo.PNG"    },
+  { name: "MyBox",       file: "mybox logo.PNG"       },
 ];
 
 function tilt(e: React.MouseEvent<HTMLDivElement>) {
@@ -351,20 +359,21 @@ export default function Page() {
         <div style={{ textAlign: "center", marginBottom: 28 }}>
           <span style={{ fontSize: 11, color: "var(--t3)", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase" }}>Empresas que confiam na Aurea Group</span>
         </div>
-        <div className="ticker-wrap">
-          <div className="ticker">
+        <div className="ticker-wrap" style={{ background: "#fff", borderRadius: 16, padding: "8px 0" }}>
+          <Ticker duration={30}>
             {[...CLIENTS, ...CLIENTS].map((c, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", padding: "0 40px", borderRight: "1px solid rgba(255,255,255,.05)" }}>
+              <div key={i} style={{ display: "flex", alignItems: "center", padding: "0 40px", borderRight: "1px solid rgba(0,0,0,.06)", flexShrink: 0 }}>
                 <img
                   src={`/clients/${c.file}`}
                   alt={c.name}
-                  style={{ height: 80, maxWidth: 260, objectFit: "contain", filter: "grayscale(1) brightness(1.8)", opacity: .6, transition: "opacity .2s, filter .2s" }}
+                  style={{ height: 80, maxWidth: 260, objectFit: "contain", filter: "grayscale(1)", opacity: .55, transition: "opacity .2s, filter .2s" }}
                   onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0)"; (e.currentTarget as HTMLImageElement).style.opacity = "1"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(1) brightness(1.8)"; (e.currentTarget as HTMLImageElement).style.opacity = ".6"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.filter = "grayscale(1)"; (e.currentTarget as HTMLImageElement).style.opacity = ".55"; }}
+                  draggable={false}
                 />
               </div>
             ))}
-          </div>
+          </Ticker>
         </div>
       </section>
 
@@ -456,13 +465,16 @@ export default function Page() {
       <section style={{ padding: "80px 0", position: "relative", zIndex: 1 }}>
         <div className="reveal" style={{ textAlign: "center", marginBottom: 48, padding: "0 24px" }}>
           <div className="badge" style={{ marginBottom: 20 }}>Depoimentos</div>
-          <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1 }}>
+          <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.1, marginBottom: 20 }}>
             O que nossos clientes<br /><span className="gold-text">estão dizendo</span>
           </h2>
+          <a href="https://www.instagram.com/stories/highlights/17922380781183340/" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, fontWeight: 700, color: "var(--gold-lt)", textDecoration: "none" }}>
+            Ver prints reais de clientes →
+          </a>
         </div>
         <div>
           <div className="ticker-wrap">
-            <div className="ticker-slow">
+            <Ticker duration={55}>
               {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
                 <div key={i} className="glass-card" style={{ width: 380, flexShrink: 0, padding: 28, margin: "0 8px" }}>
                   <div style={{ display: "flex", gap: 2, marginBottom: 16 }}>
@@ -470,7 +482,11 @@ export default function Page() {
                   </div>
                   <p style={{ fontSize: 14, color: "var(--t2)", lineHeight: 1.7, marginBottom: 20, fontStyle: "italic" }}>&ldquo;{t.text}&rdquo;</p>
                   <div style={{ display: "flex", alignItems: "center", gap: 12, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,.06)" }}>
-                    <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg, var(--gold-lt), var(--gold2))", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 14, color: "#000", flexShrink: 0 }}>{t.name[0]}</div>
+                    {t.photo ? (
+                      <img src={t.photo} alt={t.name} style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
+                    ) : (
+                      <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg, var(--gold-lt), var(--gold2))", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 14, color: "#000", flexShrink: 0 }}>{t.name[0]}</div>
+                    )}
                     <div>
                       <div style={{ fontSize: 13, fontWeight: 700 }}>{t.name}</div>
                       <div style={{ fontSize: 11, color: "var(--t3)" }}>{t.role}</div>
@@ -478,7 +494,7 @@ export default function Page() {
                   </div>
                 </div>
               ))}
-            </div>
+            </Ticker>
           </div>
         </div>
       </section>
