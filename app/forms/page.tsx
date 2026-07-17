@@ -506,7 +506,7 @@ export default function FalarPage() {
           <p style={{ fontSize: 14, color: "var(--t2)", lineHeight: 1.7, marginBottom: 32, maxWidth: 380, margin: "0 auto 32px" }}>
             Com base nas suas respostas, você só precisa de estratégia, posicionamento e processo para transformar seus resultados.
           </p>
-          <a href="https://mentorialucavespa.com" target="_blank" rel="noopener noreferrer"
+          <a href="https://mentorialucavespa.com.br/" target="_blank" rel="noopener noreferrer"
             className="btn-primary" style={{ width: "100%", justifyContent: "center", fontSize: 15, padding: "16px 28px", borderRadius: 12 }}>
             QUERO ACESSAR O TREINAMENTO →
           </a>
