@@ -12,6 +12,11 @@ export const metadata: Metadata = {
     icon: "/icon.jpg",
     apple: "/icon.jpg",
   },
+  verification: {
+    other: {
+      "facebook-domain-verification": "u7y5uc4jk960rvfik0u2h90ap9m5lv",
+    },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
