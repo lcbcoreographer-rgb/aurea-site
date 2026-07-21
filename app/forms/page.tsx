@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { fbTrackLead } from "../lib/fbpixel";
 
 // ── Step types ───────────────────────────────────────────────────────────────
 interface FieldDef { id: string; label: string; placeholder: string; type?: string }
@@ -328,6 +329,7 @@ export default function FalarPage() {
         console.log("[CRM] Status:", res.status, "| Body:", responseBody);
         if (!res.ok) throw new Error(`HTTP ${res.status}: ${responseBody}`);
         console.log("[CRM] Lead enviado com sucesso ✓");
+        fbTrackLead({ content_name: flow, value: s, currency: "BRL" });
       } catch (e) {
         console.error("[CRM] Erro ao enviar lead:", e);
         setSubmitError(true);
