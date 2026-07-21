@@ -553,12 +553,16 @@ export default function FalarPage() {
             style={{ fontSize: 13, fontWeight: 700, color: "var(--gold-lt)", textDecoration: "none" }}>@lucavespaa</a>
         </div>
       </div>
-      <h1 style={{ fontSize: "clamp(22px,5vw,28px)", fontWeight: 900, letterSpacing: "-.04em", marginBottom: 10 }}>O que você deseja?</h1>
+      <h1 style={{ fontSize: "clamp(24px,5.5vw,34px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.15, marginBottom: 18 }}>
+        Tráfego pago e IA<br />
+        <span className="gold-text">que vendem enquanto</span> você dorme
+      </h1>
+      <h2 style={{ fontSize: "clamp(18px,4vw,22px)", fontWeight: 800, letterSpacing: "-.03em", marginBottom: 10 }}>Aplique para um diagnóstico gratuito</h2>
       <p style={{ fontSize: 14, color: "var(--t2)", marginBottom: 28 }}>Selecione a opção que mais combina com você.</p>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         {[
-          { icon: "💼", title: "Quero contratar os serviços da Aurea Group", desc: "Meta Ads, Google Ads, agente IA e CRM inteligente", f: "servicos" as Flow },
-          { icon: "🎓", title: "Quero participar da mentoria",               desc: "Escale seu negócio com tráfego pago e automações",    f: "mentoria" as Flow },
+          { icon: "💼", title: "Tenho uma empresa e quero contratar a Aurea Group", desc: "Meta Ads, Google Ads, agente IA e CRM inteligente", f: "servicos" as Flow },
+          { icon: "🎓", title: "Quero participar da mentoria",               desc: "Aprenda o método que o Luca Vespa usa para faturar 50k todos os meses",    f: "mentoria" as Flow },
           { icon: "📚", title: "Quero conhecer o curso",                     desc: "Conteúdo prático para dominar o marketing digital",   f: "curso" as Flow },
         ].map(o => (
           <button key={o.f} onClick={() => { setFwd(true); setAnim(true); setTimeout(() => { setFlow(o.f); setStep(0); setData({}); setDone(false); setAnim(false); }, 220); }}
