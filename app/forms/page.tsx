@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { fbTrackLead } from "../lib/fbpixel";
+import { TESTIMONIALS } from "../lib/testimonials";
 
 // ── Step types ───────────────────────────────────────────────────────────────
 interface FieldDef { id: string; label: string; placeholder: string; type?: string }
@@ -250,6 +251,38 @@ function buildBackendPayload(flow: Flow, d: D, score: number, cl: ReturnType<typ
     // Payload completo para form_leads
     payload:             { ...d, flow, score, classificacao: cl.label, tags: cl.tags },
   };
+}
+
+// ── Compact rotating testimonial (no scroll, fixed footprint) ────────────────
+function MiniTestimonial() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI(p => (p + 1) % TESTIMONIALS.length), 3000);
+    return () => clearInterval(t);
+  }, []);
+  const item = TESTIMONIALS[i];
+  return (
+    <div style={{ marginTop: 24, padding: "16px 18px", borderRadius: 14, background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.07)", textAlign: "left" }}>
+      <div style={{ display: "flex", gap: 2, marginBottom: 8 }}>
+        {[1,2,3,4,5].map(s => <span key={s} style={{ color: "var(--gold-lt)", fontSize: 12 }}>★</span>)}
+      </div>
+      <p style={{
+        fontSize: 12.5, color: "var(--t2)", lineHeight: 1.6, fontStyle: "italic", marginBottom: 10,
+        display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden",
+      }}>&ldquo;{item.text}&rdquo;</p>
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        {item.photo ? (
+          <img src={item.photo} alt={item.name} style={{ width: 26, height: 26, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
+        ) : (
+          <div style={{ width: 26, height: 26, borderRadius: "50%", background: "linear-gradient(135deg, var(--gold-lt), var(--gold2))", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 11, color: "#000", flexShrink: 0 }}>{item.name[0]}</div>
+        )}
+        <div>
+          <div style={{ fontSize: 11.5, fontWeight: 700 }}>{item.name}</div>
+          <div style={{ fontSize: 10, color: "var(--t3)" }}>{item.role}</div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // ── Component ────────────────────────────────────────────────────────────────
@@ -543,25 +576,25 @@ export default function FalarPage() {
   // ── Choice screen ──────────────────────────────────────
   const renderChoice = () => (
     <div className={`step-slide${anim ? " exit-fwd" : ""}`} style={{ textAlign: "center" }}>
-      <div style={{ textAlign: "center", marginBottom: 36 }}>
-        <div style={{ display: "inline-block", marginBottom: 14 }}>
-          <div style={{ width: 80, height: 80, borderRadius: "50%", padding: 3, background: "linear-gradient(135deg, var(--gold-lt), var(--gold2))", display: "inline-flex" }}>
+      <div style={{ textAlign: "center", marginBottom: 22 }}>
+        <div style={{ display: "inline-block", marginBottom: 10 }}>
+          <div style={{ width: 64, height: 64, borderRadius: "50%", padding: 3, background: "linear-gradient(135deg, var(--gold-lt), var(--gold2))", display: "inline-flex" }}>
             <img src="/logo.jpg" alt="Aurea Group" style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover" }} />
           </div>
-          <div style={{ position: "absolute", bottom: 2, right: 2, width: 16, height: 16, borderRadius: "50%", background: "#4CAF86", border: "2px solid #000" }} />
+          <div style={{ position: "absolute", bottom: 2, right: 2, width: 14, height: 14, borderRadius: "50%", background: "#4CAF86", border: "2px solid #000" }} />
         </div>
-        <div style={{ marginTop: 8 }}>
+        <div style={{ marginTop: 6 }}>
           <a href="https://instagram.com/lucavespaa" target="_blank" rel="noopener noreferrer"
-            style={{ fontSize: 13, fontWeight: 700, color: "var(--gold-lt)", textDecoration: "none" }}>@lucavespaa</a>
+            style={{ fontSize: 12, fontWeight: 700, color: "var(--gold-lt)", textDecoration: "none" }}>@lucavespaa</a>
         </div>
       </div>
-      <h1 style={{ fontSize: "clamp(24px,5.5vw,34px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.15, marginBottom: 18 }}>
+      <h1 style={{ fontSize: "clamp(20px,4.5vw,28px)", fontWeight: 900, letterSpacing: "-.04em", lineHeight: 1.15, marginBottom: 12 }}>
         Tráfego pago e IA<br />
         <span className="gold-text">que vendem enquanto</span> você dorme
       </h1>
-      <h2 style={{ fontSize: "clamp(18px,4vw,22px)", fontWeight: 800, letterSpacing: "-.03em", marginBottom: 10 }}>Aplique para um diagnóstico gratuito</h2>
-      <p style={{ fontSize: 14, color: "var(--t2)", marginBottom: 28 }}>Selecione a opção que mais combina com você.</p>
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <h2 style={{ fontSize: "clamp(16px,3.5vw,19px)", fontWeight: 800, letterSpacing: "-.03em", marginBottom: 6 }}>Aplique para um diagnóstico gratuito</h2>
+      <p style={{ fontSize: 13, color: "var(--t2)", marginBottom: 18 }}>Selecione a opção que mais combina com você.</p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {[
           { icon: "💼", title: "Tenho uma empresa e quero contratar a Aurea Group", desc: "Meta Ads, Google Ads, agente IA e CRM inteligente", f: "servicos" as Flow },
           { icon: "🎓", title: "Quero participar da mentoria",               desc: "Aprenda o método que o Luca Vespa usa para faturar 50k todos os meses",    f: "mentoria" as Flow },
@@ -578,7 +611,8 @@ export default function FalarPage() {
           </button>
         ))}
       </div>
-      <p style={{ marginTop: 24, fontSize: 12, color: "var(--t3)" }}>🔒 Suas informações estão seguras e não serão compartilhadas.</p>
+      <MiniTestimonial />
+      <p style={{ marginTop: 14, fontSize: 12, color: "var(--t3)" }}>🔒 Suas informações estão seguras e não serão compartilhadas.</p>
     </div>
   );
 
@@ -598,7 +632,7 @@ export default function FalarPage() {
         </Link>
       </header>
 
-      <main style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 24px 60px", position: "relative", zIndex: 1 }}>
+      <main style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "76px 24px 24px", position: "relative", zIndex: 1 }}>
         <div style={{ width: "100%", maxWidth: 500 }}>
 
           {/* Progress bar */}
